@@ -1,85 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about" class="text-red-500">About</RouterLink>
-      </nav>
+  <div class="grid grid-cols-8 gap-4">
+    <nav class="h-screen flex flex-col justify-between bg-gray-900 py-4 px-4 text-white text-xl">
+        <div class="flex flex-col space-y-4">
+            LOGO (RE)Sources
+            <input class="bg-gray-800 rounded-lg w-full py-2 px-4 mt-4" placeholder="Rechercher" />
+            <RouterLink to="/">Acceuil</RouterLink>
+            <RouterLink to="/about">A propos</RouterLink>
+            <div>Commentées</div>
+            <ul class="flex flex-col gap-4">
+                <li class="bg-gray-800 py-2 px-4 rounded-lg">Santé</li>
+                <li class="bg-gray-800 py-2 px-4 rounded-lg">Sport</li>
+                <li class="bg-gray-800 py-2 px-4 rounded-lg">Education</li>
+                <li class="bg-gray-800 py-2 px-4 rounded-lg">Droit</li>
+            </ul>
+        </div>
+        <div class="py-1 mb-2 flex rounded-full hover:bg-gray-800">
+            <img class="mr-3 h-2/3 rounded-xl" src="http://fakeimg.pl/64x64/ff0000/000"><span class="mt-1">Compte TEST</span>
+        </div>
+    </nav>
+    <div class="rounded-lg bg-gray-100 col-span-7 p-8 m-4">
+      <RouterView />
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
