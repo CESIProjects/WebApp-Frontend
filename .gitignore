@@ -29,3 +29,6 @@ coverage
 
 # Ignore package-lock
 package-lock.json
+
+# My files
+/api
