@@ -23,7 +23,7 @@
         <div class="mt-8">
             <ul class="flex flex-col text-xl space-y-4">
                 <li v-for="customer in customers" :key="customer.id" class="flex justify-between">
-                    {{ customer.id }} - {{ customer.name }}
+                    {{ customer.id }} - {{ customer.name }} - {{ customer.email }} - {{ customer.password }}
                     <div class="flex space-x-2">
                         <button @click="editCustomer(customer.id)" class="bg-orange-500 p-2 rounded-lg text-white flex"><img src="/svg/edit.svg" class="text-white w-5 h-5 mr-1 mt-1" />Modifier</button>
                         <button @click="deleteCustomer(customer.id)"  class="bg-red-500 p-2 rounded-lg text-white flex"><img src="/svg/delete.svg" class="text-white w-5 h-5 mr-1 mt-1" />Supprimer</button>
@@ -43,6 +43,16 @@
                     <input type="text" class="bg-gray-100 rounded-lg focus:outline-none p-2" v-model="formData.name" required>
                 </div>
 
+                <div class="grid gap-2">
+                    <label for="name">Email:</label>
+                    <input type="text" class="bg-gray-100 rounded-lg focus:outline-none p-2" v-model="formData.email" required>
+                </div>
+
+                <div class="grid gap-2">
+                    <label for="name">Password:</label>
+                    <input type="text" class="bg-gray-100 rounded-lg focus:outline-none p-2" v-model="formData.password" required>
+                </div>
+
                 <button type="submit" :class="{'bg-orange-500': editMode, 'bg-green-500': !editMode }" class="mt-4 w-full py-2 px-4 text-white rounded-lg">{{ editMode ? 'Modifier' : 'Ajouter' }}</button>
             </form>
         </div> -->
@@ -60,11 +70,13 @@ export default {
             editMode: false,
             formData: {
                 name: '',
-            },
+                email: '',
+                password: '',
+            }
         };
     },
     mounted() {
-        this.fetchCustomers();
+        this.fetchCustomers();      
     },
     methods: {
         fetchCustomers() {
