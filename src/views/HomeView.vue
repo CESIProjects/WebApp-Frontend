@@ -1,6 +1,22 @@
 <template>
     <div>
-        <div class="flex justify-between">
+        <div class="w-10/12 mx-auto">
+            <div class="mb-10" v-for="n in 10" key="index">
+                <img src="/test_blog.jpg" style="height: 18rem;" class="bg-auto w-full rounded-3xl">
+                <div class="my-4"><span class="bg-red-500 rounded-full text-white font-semibold px-4 py-1">Catégorie</span></div>
+                <div class="text-4xl font-bold">Comment le titre devrait normalement être dans les publications. {{ n }}</div>
+                <div class="my-3 font-semibold text-gray-500 text-lg">Ceci serait la description d'un post que l'on metterai sur max 2 ligne avec un truncate à la fin.</div>
+                <div class="py-1 mb-2 flex justify-between">
+                    <div class="flex">
+                        <img src="/Gouvernement_N.png" class="w-8 h-8 mt-1 mr-3 rounded-full border-2" alt=""><div class="pt-1">Compte TEST</div>
+                    </div>
+                    <div class="mr-2">
+                        <div class="flex"><img src="/svg/like_post.svg" class="mr-2">12</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="flex justify-between">
             <h2 class="text-2xl font-bold">Démonstration du CRUD Spring Boot:</h2>
             <button @click="showForm = true" class="bg-green-500 font-bold py-2 px-4 text-white rounded-lg shadow-xl">+</button>
         </div>
@@ -39,7 +55,7 @@
 
                 <button type="submit" :class="{'bg-orange-500': editMode, 'bg-green-500': !editMode }" class="mt-4 w-full py-2 px-4 text-white rounded-lg">{{ editMode ? 'Modifier' : 'Ajouter' }}</button>
             </form>
-        </div>
+        </div> -->
     </div>
 </template>
 
