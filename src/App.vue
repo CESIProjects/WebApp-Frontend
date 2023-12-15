@@ -43,6 +43,7 @@
               <img src="/Gouvernement_N.png" class="w-12 h-12 mt-1 mr-3 rounded-full" alt=""><div>Compte TEST<br><span class="text-gray-200 text-lg">Utilisateur</span></div>
           </div>
         </div>
+      </div>
     </nav>
     <div class="col-span-7 p-8 m-4">
       <RouterView />
