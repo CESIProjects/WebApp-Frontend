@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="w-10/12 mx-auto">
-            <div class="mb-10" v-for="n in 10" key="index">
+            <div class="mb-10" v-for="post in posts" key="index">
                 <img src="/test_blog.jpg" style="height: 18rem;" class="bg-auto w-full rounded-3xl">
                 <div class="my-4"><span class="bg-red-500 rounded-full text-white font-semibold px-4 py-1">Catégorie</span></div>
-                <div class="text-4xl font-bold">Comment le titre devrait normalement être dans les publications. {{ n }}</div>
-                <div class="my-3 font-semibold text-gray-500 text-lg">Ceci serait la description d'un post que l'on metterai sur max 2 ligne avec un truncate à la fin.</div>
+                <div class="text-4xl font-bold">{{post.title}}</div>
+                <div class="my-3 font-semibold text-gray-500 text-lg">{{post.content}}</div>
                 <div class="py-1 mb-2 flex justify-between">
                     <div class="flex">
                         <img src="/Gouvernement_N.png" class="w-8 h-8 mt-1 mr-3 rounded-full border-2" alt=""><div class="pt-1">Compte TEST</div>
@@ -66,6 +66,7 @@ export default {
     data() {
         return {
             customers: [],
+            posts: [],
             showForm: false,
             editMode: false,
             formData: {
@@ -76,13 +77,23 @@ export default {
         };
     },
     mounted() {
-        this.fetchCustomers();      
+        this.fetchCustomers();  
+        this.fetchPosts();    
     },
     methods: {
         fetchCustomers() {
             axios.get('http://localhost:8080/api/customers')
                 .then(response => {
                     this.customers = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching customers:', error);
+                });
+        },
+        fetchPosts() {
+            axios.get('http://localhost:8080/api/posts')
+                .then(response => {
+                    this.posts = response.data;
                 })
                 .catch(error => {
                     console.error('Error fetching customers:', error);
