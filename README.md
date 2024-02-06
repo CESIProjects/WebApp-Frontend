@@ -1,27 +1,10 @@
 # WebApp-Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
 ## Project Setup
+
+```sh
+cd WebApp-Frontend
+```
 
 ```sh
 npm install
@@ -33,8 +16,39 @@ npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### No build, everything with docker as fine :sunglasses:
+
+#### docker-compose.yml
+
+In main folder -> :
+
+* [CESI_PROJECT]
+    * [WebApp-Frontend]
+    * [WebApp-Backend]
+    * [docker-compose.yml]
+ 
+Put it here and write this inside : (Only the front for the moment, backend will be added)
 
 ```sh
-npm run build
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./WebApp-Frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    networks:
+      - my-network
+    restart: no
+
+networks:
+  my-network:
 ```
+
+```sh
+docker compose up --build
+```
+
+-> [Local docker address created](http://localhost:3000/)
