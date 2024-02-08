@@ -154,7 +154,7 @@ export default {
  
       this.errorMessage = '';
 
-      axios.post('http://localhost:8080/api/customers', this.formData)
+      axios.post('http://localhost:8080/api/users', this.formData)
         .then(response => {
           console.log('User created successfully. ID:', response.data);
 

@@ -82,12 +82,12 @@ export default {
     },
     methods: {
         fetchCustomers() {
-            axios.get('http://localhost:8080/api/customers')
+            axios.get('http://localhost:8080/api/users')
                 .then(response => {
                     this.customers = response.data;
                 })
                 .catch(error => {
-                    console.error('Error fetching customers:', error);
+                    console.error('Error fetching users:', error);
                 });
         },
         fetchPosts() {
@@ -96,7 +96,7 @@ export default {
                     this.posts = response.data;
                 })
                 .catch(error => {
-                    console.error('Error fetching customers:', error);
+                    console.error('Error fetching users:', error);
                 });
         },
         editCustomer(id) {
