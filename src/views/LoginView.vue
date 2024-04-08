@@ -1,14 +1,16 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <div class="flex-1 flex flex-col justify-center">
-      <div class="mx-auto w-full h-auto max-w-sm lg:w-96">
+  <div
+    class="h-screen w-full bg-[url('https://mrwallpaper.com/images/hd/arc-de-triomphe-france-1ikitad7j4ix10a5.jpg')] bg-auto bg-no-repeat bg-center"
+  >
+    <div class="h-full bg-gray-800/50 p-8">
+      <div class="h-full max-w-xl mx-auto flex flex-col justify-center ">
         <div class="text-center">
-          <h2 class="mt-3 text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+          <h2 class="mt-3 text-3xl font-extrabold text-gray-200">
+            Connexion au compte
           </h2>
-         <p class="mt-2 text-xl ">
-            Or create a new account
-            <RouterLink class="font-medium hover:text-blue-900" to="/register">here</RouterLink>
+         <p class="mt-2 text-xl text-gray-200">
+            Ou créer un nouveau compte
+            <RouterLink class="font-medium text-red-400 hover:text-blue-500" to="/register">ici</RouterLink>
           </p>
         </div>
 
@@ -57,7 +59,7 @@
               </div>
 
               <div>
-                <button type="submit" class="w-full bg-purple-500 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2" @click="login()">
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-700 via-white to-red-700 flex justify-center border-gray-900 py-2 px-4 rounded-md border-4 text-lg text-gray-800 font-bold " @click="login()">
                   Login
                 </button>
               </div>

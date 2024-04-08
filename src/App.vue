@@ -192,6 +192,17 @@ export default {
       return userStore.user
     },
   },
+  // watch: {
+  //   // Watch for changes in the user object and redirect to /register if user or user.name is not found
+  //   user: {
+  //     handler(newVal) {
+  //       if (!newVal || !newVal.name) {
+  //         this.$router.push('/register');
+  //       }
+  //     },
+  //     immediate: true // Trigger the watcher immediately upon component creation
+  //   }
+  // },
   methods: {
     logout() {
       const userStore = useUserStore()
@@ -206,4 +217,15 @@ export default {
 .bg-main-color {
   background-color: #710000;
 }
+.police {
+  font-family: cursive;
+}
 </style>
+
+
+<style scoped>
+.bg-main-color {
+  background-color: #710000;
+}
+</style>
+
