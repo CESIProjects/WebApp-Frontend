@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
+import PostView from '../views/PostView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import RessourceView from '../views/RessourceView.vue'
@@ -32,7 +33,12 @@ const router = createRouter({
       path: '/ressource',
       name: 'ressource',
       component: RessourceView
-    }
+    },
+    {
+      path: '/post',
+      name: 'post',
+      component: PostView
+    },
   ]
 })
 
