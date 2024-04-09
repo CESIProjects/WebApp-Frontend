@@ -22,11 +22,11 @@ npm run dev
 
 In main folder -> :
 
-* [CESI_PROJECT]
-    * [WebApp-Frontend]
-    * [WebApp-Backend]
-    * [docker-compose.yml]
- 
+* CESI_PROJECT
+    * WebApp-Frontend
+    * WebApp-Backend
+    * docker-compose.yml
+
 Put it here and write this inside : (Only the front for the moment, backend will be added)
 
 ```sh

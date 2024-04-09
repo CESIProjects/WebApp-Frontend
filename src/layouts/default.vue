@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12 police">
+    <div class="grid grid-cols-12 police">
         <nav
         class="sticky border-r-2 border-gray-700 top-0 flex flex-col justify-between h-screen col-span-2 px-6 py-4 text-xl text-white bg-gradient-to-r bg-blue-900"
         >
@@ -138,7 +138,7 @@
         <div
         class="col-span-7 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative"
         >
-            <RouterView />
+            <slot />
         <!-- <div class="absolute right-0 top-4 border-l-2 border-y-2 rounded-l-xl bg-white">
             <div class="p-6 flex justify-center items-center">
             <div class="text-3xl">Bienvenue sur le réseau ministériel</div>
@@ -189,49 +189,3 @@
     </div>
 </template>
 
-<script>
-import { RouterLink, RouterView } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-
-export default {
-  computed: {
-    user() {
-      const userStore = useUserStore()
-      return userStore.user
-    },
-  },
-  // watch: {
-  //   // Watch for changes in the user object and redirect to /register if user or user.name is not found
-  //   user: {
-  //     handler(newVal) {
-  //       if (!newVal || !newVal.name) {
-  //         this.$router.push('/register');
-  //       }
-  //     },
-  //     immediate: true // Trigger the watcher immediately upon component creation
-  //   }
-  // },
-  methods: {
-    logout() {
-      const userStore = useUserStore()
-      userStore.resetUser()
-      this.$router.push('/register')
-    },
-  },
-}
-</script>
-
-<style scoped>
-.bg-main-color {
-  background-color: #710000;
-}
-.police {
-  font-family: cursive;
-}
-</style>
-
-<style scoped>
-.bg-main-color {
-  background-color: #710000;
-}
-</style>
