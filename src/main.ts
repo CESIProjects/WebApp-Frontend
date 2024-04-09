@@ -10,6 +10,7 @@ import './assets/main.css'
 import AboutView from './views/AboutView.vue';
 import PostView from './views/PostView.vue';
 import RessourceView from './views/RessourceView.vue';
+import LoginView from './views/LoginView.vue';
 
 const pinia = createPinia();
 
@@ -49,6 +50,11 @@ const routes = [
         name: 'register', 
         component: RegisterView 
       },
+      {
+        path: '/login',
+        name: 'login',
+        component: LoginView
+      }
     ]
   }
 ];
