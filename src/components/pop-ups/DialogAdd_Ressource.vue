@@ -65,7 +65,7 @@ export default {
 
         // Effectuer la requête POST avec Axios
         const response = await axios.post(
-          "http://localhost:8080/api/posts/post",
+          "http://localhost:8080/api/posts",
           postData
         );
 
