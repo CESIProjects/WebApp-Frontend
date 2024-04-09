@@ -1,3 +1,3 @@
 <template>
-    <div>ttttteeeeessssstttt</div>
+    <!-- Layout register-->
 </template>

@@ -1,9 +1,11 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createPinia } from 'pinia';
+
 import App from './App.vue';
 import LayoutDefault from './layouts/default.vue';
 import LayoutRegister from './layouts/register.vue';
+import LayoutLogin from './layouts/login.vue';
 import Home from './views/HomeView.vue';
 import RegisterView from './views/RegisterView.vue';
 import './assets/main.css'
@@ -49,14 +51,20 @@ const routes = [
         path: '/register', 
         name: 'register', 
         component: RegisterView 
-      },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: LayoutLogin,
+    children: [
       {
         path: '/login',
         name: 'login',
         component: LoginView
       }
     ]
-  }
+  },
 ];
 
 const router = createRouter({
