@@ -14,8 +14,6 @@ import PostView from './views/PostView.vue';
 import RessourceView from './views/RessourceView.vue';
 import LoginView from './views/LoginView.vue';
 
-const pinia = createPinia();
-
 const routes = [
   {
     path: '/',
@@ -67,12 +65,10 @@ const routes = [
   },
 ];
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-});
+app.use(pinia)
+app.use(IonicVue)
+app.use(router)
 
-createApp(App)
-  .use(pinia)
-  .use(router)
-  .mount('#app');
+router.isReady().then(() => {
+    app.mount('#app');
+});

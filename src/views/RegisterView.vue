@@ -1,3 +1,2 @@
 <template>
-    <!-- Layout register-->
 </template>
