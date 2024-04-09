@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import LayoutDefault from './layouts/default.vue';
+import LayoutRegister from './layouts/register.vue';
 import Home from './views/HomeView.vue';
 import RegisterView from './views/RegisterView.vue';
 import './assets/main.css'
@@ -36,6 +37,17 @@ const routes = [
         path: '/ressource', 
         name: 'ressource', 
         component: RessourceView
+      },
+    ]
+  },
+  {
+    path: '/',
+    component: LayoutRegister,
+    children: [
+      { 
+        path: '/register', 
+        name: 'register', 
+        component: RegisterView 
       },
     ]
   }
