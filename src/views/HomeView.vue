@@ -75,121 +75,72 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import axios from 'axios';
 
-export default {
-    data() {
-        return {
-            posts: [],
-            categories: [],
-            searchQuery: '',
-            showForm: false,
-            editMode: false,
-            formData: {
-                name: '',
-                email: '',
-                password: '',
-            },
-            newCategoryName: '',
-            modalCategory: false,
-        };
+export default defineComponent({
+  data() {
+    return {
+      posts: [],
+      categories: [],
+      searchQuery: '',
+      showForm: false,
+      editMode: false,
+      formData: {
+        name: '',
+        email: '',
+        password: '',
+      },
+      newCategoryName: '',
+      modalCategory: false,
+    };
+  },
+  mounted() {
+    this.fetchCategories();
+  },
+  methods: {
+    fetchCategories() {
+      axios.get('http://localhost:8080/api/categories')
+        .then(response => {
+          this.categories = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+        });
     },
-    mounted() {
-        this.fetchCategories();
-        // this.fetchPosts(); 
-    },
-    methods: {
-        // fetchPosts() {
-        //     axios.get('http://localhost:8080/api/posts')
-        //         .then(response => {
-        //             this.posts = response.data;
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching customers:', error);
-        //         });
-        // },
-        
-        fetchCategories() {
-            axios.get('http://localhost:8080/api/categories')
-                .then(response => {
-                    this.categories = response.data;
-                })
-                .catch(error => {
-                    console.error('Error fetching customers:', error);
-                });
-        },
-        createCategory() {
-            const newCategory = {
-                name: this.newCategoryName
-            };
+    createCategory() {
+      const newCategory = {
+        name: this.newCategoryName
+      };
 
-            axios.post('http://localhost:8080/api/categories', newCategory)
-                .then(response => {
-                    this.fetchCategories();
-                    this.modalCategory = false
-                    this.newCategoryName = '';
-                })
-                .catch(error => {
-                    console.error('Error creating category:', error);
-                });
-        },
-        editCustomer(id) {
-            const customer = this.customers.find(c => c.id === id);
-
-            this.formData = { ...customer };
-
-            this.editMode = true;
-            this.showForm = true;
-        },
-        deleteCustomer(id) {
-            axios.delete(`http://localhost:8080/api/customers/${id}`)
-                .then(() => {
-                    this.customers = this.customers.filter(c => c.id !== id);
-                })
-                .catch(error => {
-                    console.error('Error deleting customer:', error);
-                });
-        },
-        deleteCategory(id) {
-            axios.delete(`http://localhost:8080/api/categories/${id}`)
-                .then(() => {
-                    this.categories = this.categories.filter(c => c.id !== id);
-                    this.fetchCategories();
-                })
-                .catch(error => {
-                    console.error('Error deleting customer:', error);
-                });
-        },
-        submitForm() {
-            if (this.editMode) {
-                axios.put(`http://localhost:8080/api/customers/${this.formData.id}`, this.formData)
-                    .then(() => {
-                        this.fetchCustomers();
-                    })
-                    .catch(error => {
-                        console.error('Error updating customer:', error);
-                    });
-            } else {
-                axios.post('http://localhost:8080/api/customers', this.formData)
-                    .then(() => {
-                        this.fetchCustomers();
-                    })
-                    .catch(error => {
-                        console.error('Error creating customer:', error);
-                    });
-            }
-            this.showForm = false;
-            this.editMode = false;
-        },
+      axios.post('http://localhost:8080/api/categories', newCategory)
+        .then(response => {
+          this.fetchCategories();
+          this.modalCategory = false;
+          this.newCategoryName = '';
+        })
+        .catch(error => {
+          console.error('Error creating category:', error);
+        });
     },
-    
-    computed: {
-        filteredCategories() {
-            return this.categories.filter(category =>
-                category.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-        }
+    deleteCategory(id: number) {
+      axios.delete(`http://localhost:8080/api/categories/${id}`)
+        .then(() => {
+          this.categories = this.categories.filter(c => c.id !== id);
+          this.fetchCategories();
+        })
+        .catch(error => {
+          console.error('Error deleting category:', error);
+        });
     },
-};
+  },
+  computed: {
+    filteredCategories() {
+      return this.categories.filter(category =>
+        category.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+  },
+});
 </script>
