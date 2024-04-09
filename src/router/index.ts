@@ -1,3 +1,5 @@
+
+import LayoutDefault from '../layouts/default.vue'
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import AboutView from '../views/AboutView.vue'
 import PostView from '../views/PostView.vue'
@@ -10,6 +12,11 @@ import IonicView from '../views/IonicView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path:'/',
+      name: 'layout',
+      component: LayoutDefault
+    },
     {
       path: '/about',
       name: 'about',
