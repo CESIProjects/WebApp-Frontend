@@ -334,14 +334,9 @@
             </div>
         </div>
     </div>
-    <!--  
-    <component :is="layout">
-       <router-view />
-    </component>
-    -->
     </div>
-  </template>
-  
+  </div>
+</template>
 
 <script>
 import axios from "axios";
@@ -355,7 +350,6 @@ export default {
   },
   data() {
     return {
-      layout: 'LayoutDefault',
       dialogVisible: false,
       createPost: false,
       
