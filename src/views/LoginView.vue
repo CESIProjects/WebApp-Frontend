@@ -38,13 +38,13 @@
                   for="email"
                   class="block text-sm font-medium text-gray-700"
                 >
-                  Email
+                  Username
                 </label>
                 <div class="mt-1">
                   <input
                     id="email"
                     name="email"
-                    v-model="formData.email"
+                    v-model="formData.username"
                     type="email"
                     required
                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
@@ -89,15 +89,63 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { useUserStore } from '../stores/user'
+
 export default {
   data() {
     return {
       formData: {
-        email: '',
+        username: '',
         password: '',
       },
       errorMessage: '',
     }
+  },
+  layout: 'empty',
+  methods: {
+    login() {
+      if (
+        !this.formData.username ||
+        !this.formData.password
+      ) {
+        this.errorMessage = 'Veuillez remplir tous les champs.'
+        return
+      }
+
+      this.errorMessage = ''
+
+      axios
+        .post('http://localhost:8080/api/auth/signin', this.formData)
+        .then((response) => {
+          console.log('User login successfully. ID:', response.data)
+          
+          const userStore = useUserStore()
+          userStore.setUser({
+            username: this.formData.username,
+            tokenType: response.data.tokenType,
+            accessToken: response.data.accessToken,
+          })
+
+
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 100)
+        })
+        .catch((error) => {
+          console.error('Error login user:', error)
+
+          if (
+            error.response &&
+            error.response.status === 400 &&
+            error.response.data.message
+          ) {
+            this.errorMessage = error.response.data.message
+          } else {
+            this.errorMessage = 'Cette adresse email est déjà utilisée'
+          }
+        })
+    },
   },
 }
 </script>

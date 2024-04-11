@@ -195,16 +195,16 @@
 
           <div class="flex">
             <div>
-              <div v-if="user && user.name">
+              <div v-if="user && user.username">
                 <RouterLink
                   class="bg-gray-800 py-2 px-4 rounded-lg text-sm"
                   to="/profile"
                 >
-                  {{ user.name }}
+                  {{ user.username }}
                 </RouterLink>
               </div>
             </div>
-            <button v-if="user && user.name" @click="logout" class="ml-3">
+            <button v-if="user && user.username" @click="logout" class="ml-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
