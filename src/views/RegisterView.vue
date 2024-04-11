@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen w-full bg-auto bg-no-repeat bg-center">
-    <Toast />
+    <Toast v-if="showToast" />
     <div class="h-full w-full grid grid-cols-5">
       <div
         class="h-full w-full bg-gradient-to-r from-blue-800 via-blue-800 to-gray-100/30"
@@ -159,6 +159,7 @@ export default {
         repeatPassword: '',
       },
       errorMessage: '',
+      showToast: false,
     }
   },
   layout: 'empty',
@@ -208,9 +209,12 @@ export default {
         .post('http://localhost:8080/api/auth/signup', this.formData)
         .then((response) => {
           console.log('User created successfully. ID:', response.data)
+
+          this.showToast = true;
           setTimeout(() => {
-            this.$router.push('/login')
-          }, 100)
+            this.showToast = false;
+            this.$router.push('/login');
+          }, 2000); 
         })
         .catch((error) => {
           console.error('Error creating user:', error)
