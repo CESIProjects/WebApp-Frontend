@@ -1,5 +1,6 @@
 <template>
   <div class="h-screen w-full bg-auto bg-no-repeat bg-center">
+    <Toast />
     <div class="h-full w-full grid grid-cols-5">
       <div
         class="h-full w-full bg-gradient-to-r from-blue-800 via-blue-800 to-gray-100/30"
@@ -48,13 +49,13 @@
                     for="name"
                     class="block text-sm text-gray-800 font-semibold"
                   >
-                    Nom
+                    Username
                   </label>
                   <div class="mt-1">
                     <input
                       id="name"
                       name="name"
-                      v-model="formData.name"
+                      v-model="formData.username"
                       type="name"
                       required
                       class="appearance-none block w-full px-3 py-2 border-4 border-gray-900 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
@@ -141,15 +142,19 @@
 </template>
 
 <script>
+import Toast from "@/components/pop-ups/Toast.vue";
 import axios from 'axios'
-import { useUserStore } from '../stores/user'
 
 export default {
+  components: {
+    Toast,
+  },
   data() {
     return {
       formData: {
-        name: '',
+        username: '',
         email: '',
+        role: 'ROLE_USER',
         password: '',
         repeatPassword: '',
       },
@@ -160,7 +165,7 @@ export default {
   methods: {
     register() {
       if (
-        !this.formData.name ||
+        !this.formData.username ||
         !this.formData.email ||
         !this.formData.password
       ) {
@@ -200,18 +205,11 @@ export default {
       this.errorMessage = ''
 
       axios
-        .post('http://localhost:8080/api/customers', this.formData)
+        .post('http://localhost:8080/api/auth/signup', this.formData)
         .then((response) => {
           console.log('User created successfully. ID:', response.data)
-
-          const userStore = useUserStore()
-          userStore.setUser({
-            name: this.formData.name,
-            email: this.formData.email,
-          })
-
           setTimeout(() => {
-            this.$router.push('/')
+            this.$router.push('/login')
           }, 100)
         })
         .catch((error) => {
