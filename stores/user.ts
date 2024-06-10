@@ -1,8 +1,20 @@
 import { defineStore } from 'pinia';
 
-export const useUserStore = defineStore('user', {
+interface User {
+    token: String;
+    isLoggedIn: Boolean;
+    username: String;
+    email: String;
+}
+
+export const useUserStore = defineStore('userStore', {
   state: () => ({
-    user: null
+    user: {
+      token: null,
+      isLoggedIn: 0,
+      username: '',
+      email: '',
+    },
   }),
   actions: {
     loadUserFromStorage() {
