@@ -115,20 +115,24 @@ export default {
       this.errorMessage = ''
 
       axios
-        .post('http://localhost:8080/api/auth/signin', this.formData)
+        .post('http://localhost:8080/api/auth/signin', {
+          username: this.formData.username,
+          password: this.formData.password
+        })
         .then((response) => {
           console.log('User login successfully. ID:', response.data)
 
-          const userStore = useUserStore().user
+          const userStore = useUserStore()
           userStore.setUser({
             username: this.formData.username,
-            token: response.data.tokenType,
-            // accessToken: response.data.accessToken,
+            token: response.data.accessToken,
+            role: response.data.role,
+            isLoggedIn: true
           })
 
-          setTimeout(() => {
-            this.$router.push('/')
-          }, 100)
+          // setTimeout(() => {
+          //   this.$router.push('/')
+          // }, 500)
         })
         .catch((error) => {
           console.error('Error login user:', error)
