@@ -20,6 +20,10 @@ export const useUserStore = defineStore('user', {
       if (process.client) {
         localStorage.removeItem('user');
       }
+    },
+    setUser(user) {
+      this.user = user;
+      this.saveUserToStorage();
     }
   }
 });

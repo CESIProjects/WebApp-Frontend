@@ -105,10 +105,7 @@
     layout: 'empty',
     methods: {
       login() {
-        if (
-          !this.formData.username ||
-          !this.formData.password
-        ) {
+        if (!this.formData.username || !this.formData.password) {
           this.errorMessage = 'Veuillez remplir tous les champs.'
           return
         }
@@ -126,7 +123,6 @@
               tokenType: response.data.tokenType,
               accessToken: response.data.accessToken,
             })
-  
   
             setTimeout(() => {
               this.$router.push('/')
@@ -149,4 +145,5 @@
     },
   }
   </script>
+  
   
