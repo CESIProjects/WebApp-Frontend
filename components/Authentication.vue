@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <div>
-      <NuxtLayout v-if="user.isLoggedIn">
-        <NuxtPage />
-      </NuxtLayout>
-      <Authentication v-if="!user.isLoggedIn"/>
+    <div >
+        <Login @switch="login = false" v-if="login" />
+        <Register @switch="login = true" v-else />
     </div>
-  </div>
 </template>
 
 <script>
 import { useUserStore } from '../stores/user.ts'
 
 export default {
+    data() {
+        return {
+            login: true
+        }
+    },
     computed: {
         user() {
             const userStore = useUserStore()
