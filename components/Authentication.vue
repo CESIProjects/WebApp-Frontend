@@ -1,7 +1,7 @@
 <template>
     <div >
         <Login @switch="login = false" v-if="login" />
-        <Register @switch="login = true" v-else />
+        <Register @switch="login = true" v-else @redirectToLogin="redirectToLogin" />
     </div>
 </template>
 
@@ -12,6 +12,11 @@ export default {
     data() {
         return {
             login: true
+        }
+    },
+    methods: {
+        redirectToLogin() {
+            this.login = true;
         }
     },
     computed: {

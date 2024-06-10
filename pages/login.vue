@@ -35,17 +35,17 @@
               <div class="space-y-4">
                 <div>
                   <label
-                    for="email"
+                    for="username"
                     class="block text-sm font-medium text-gray-700"
                   >
                     Username
                   </label>
                   <div class="mt-1">
                     <input
-                      id="email"
-                      name="email"
+                      id="username"
+                      name="username"
                       v-model="formData.username"
-                      type="email"
+                      type="username"
                       required
                       class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
                     />
@@ -120,7 +120,6 @@
             const userStore = useUserStore()
             userStore.setUser({
               username: this.formData.username,
-              tokenType: response.data.tokenType,
               accessToken: response.data.accessToken,
             })
   
