@@ -1,6 +1,5 @@
 // nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/ionic"],
-  plugins: ['~/plugins/pinia.js'],
+  modules: [ "@nuxtjs/tailwindcss", "@nuxtjs/ionic", '@pinia/nuxt',  '@pinia-plugin-persistedstate/nuxt' ],
 })

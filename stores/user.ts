@@ -16,12 +16,8 @@ export const useUserStore = defineStore('userStore', {
       email: '',
     },
   }),
+  persist: true,
   actions: {
-    loadUserFromStorage() {
-      if (process.client && localStorage.getItem('user')) {
-        this.user = JSON.parse(localStorage.getItem('user'));
-      }
-    },
     saveUserToStorage() {
       if (process.client) {
         localStorage.setItem('user', JSON.stringify(this.user));

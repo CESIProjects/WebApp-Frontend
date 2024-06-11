@@ -1,22 +1,22 @@
 <template>
   <div class="grid grid-cols-12 police">
     <nav
-      class="sticky border-r-2 border-gray-700 top-0 flex flex-col justify-between h-screen col-span-2 px-6 py-4 text-xl text-white bg-gradient-to-r bg-blue-900"
+      class="sticky border-r-2 border-gray-200 top-0 flex flex-col justify-between h-screen col-span-2 text-xl text-white bg-gradient-to-r bg-blue-900"
     >
       <!-- bg-gradient-to-l from-blue-600 to-blue-900 -->
-      <div class="flex flex-col">
-        <div class="flex">
+      <div class="flex flex-col pt-4">
+        <div class="flex mx-6">
           <div class="font-semibold">
             (RE) SOURCES
             <br />
             RELATIONNELLES
           </div>
         </div>
-        <div class="border-t-2 border-gray-200 mt-5"></div>
-        <div class="flex flex-col justify-center gap-y-5 pt-5">
+        <div class="border-t-2 border-gray-200 my-5 mx-6"></div>
+        <div class="flex flex-col justify-center gap-y-5 mx-6">
           <NuxtLink
             to="/"
-            class="flex items-center border-2 hover:scale-105 hover:bg-gray-900 transition rounded-lg px-4 py-3"
+            class="flex items-center hover:scale-105 hover:bg-gray-900 transition border-2 px-4 py-3 text-gray-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -34,11 +34,11 @@
             </svg>
             Acceuil
           </NuxtLink>
-          <div class="border-t-2 border-gray-200"></div>
         </div>
-        <div class="flex flex-col gap-y-2 pt-5 text-lg">
-          <div
-            class="group flex items-center justify-between gap-x-2 rounded-xl bg-blue-400 text-blue-900 border-2 border-blue-300 hover:bg-gray-900 hover:text-blue-400 font-semibold p-3"
+        <div class="flex flex-col mb-5 mt-6 text-lg">
+          <NuxtLink
+            to="/post"
+            class="group flex items-center justify-between gap-x-2 bg-blue-400 text-blue-900 border-blue-300 hover:bg-gray-900 hover:text-blue-400 font-semibold p-3"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,10 +69,10 @@
                 d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
               />
             </svg>
-          </div>
+          </NuxtLink>
           <NuxtLink
             to="/documents"
-            class="group flex items-center justify-between rounded-xl bg-gray-100 border-2 text-gray-500 border-gray-300 hover:bg-gray-900 hover:text-gray-200 font-semibold p-3"
+            class="group flex items-center justify-between bg-gray-100 text-gray-500 border-gray-300 hover:bg-gray-900 hover:text-gray-200 font-semibold p-3"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -105,8 +105,8 @@
             </svg>
           </NuxtLink>
           <NuxtLink
-            to="/post"
-            class="group flex items-center justify-between rounded-xl bg-red-400 border-2 text-red-900 border-red-300 font-bold p-3 hover:bg-gray-900 hover:text-red-500"
+            to="/resource"
+            class="group flex items-center justify-between bg-red-400 text-red-900 border-red-300 font-bold p-3 hover:bg-gray-900 hover:text-red-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -138,89 +138,70 @@
               />
             </svg>
           </NuxtLink>
-          <button
+          <div
             @click="dialogVisible = true"
-            class="py-3 bg-gray-200 border-2 hover:bg-gray-900 hover:border-gray-200 transition hover:scale-105 border-gray-800 rounded-lg flex flex-col items-center text-black hover:text-gray-200 justify-center pt-4 gap-y-2 mt-4"
+            class="group mx-6 p-3 mt-6 hover:bg-gray-200 border-2 rounded-lg bg-gray-900 hover:cursor-pointer hover:border-gray-900 border-orange-200 transition hover:scale-105 flex justify-between items-center hover:text-black text-gray-100"
           >
-            <img src="../assets/baguette.png" class="w-16" />
-            <div class="text-lg text-center font-semibold">
-              Ajouter un post
+            <div
+              class="text-lg text-left font-normal border-r-2 border-gray-200 w-full mr-2"
+            >
+              Publier
             </div>
-          </button>
-          <div class="border-t-2 border-gray-200 mt-3"></div>
-        </div>
-
-        <button v-if="user && user.name" @click="logout" class="ml-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-col">
-        <div class="flex my-5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6 mr-2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
-            />
-          </svg>
-          Parametres
-        </div>
-
-        <div class="py-1 mb-2 flex rounded-full hover:bg-gray-800">
-          <img
-            src="~/assets/Gouvernement_N.png"
-            class="w-12 h-12 mt-1 mr-3 rounded-full"
-            alt=""
-          />
-
-          <div class="flex">
-            <div>
-              <div v-if="user && user.name">
-                <NuxtLink
-                  class="bg-gray-800 py-2 px-4 rounded-lg text-sm"
-                  to="/authentication"
-                >
-                  {{ user.name }}
-                </NuxtLink>
-              </div>
-            </div>
-            <button v-if="user && user.name" @click="logout" class="ml-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.7"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-                />
-              </svg>
-            </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+              />
+            </svg>
           </div>
+        </div>
+      </div>
+      <div class="flex w-full mt-5 border-t-2 border-white">
+        <div
+          class="flex items-center justify-start p-3 bg-blue-800 gap-x-2 cursor-pointer hover:bg-blue-700 transition truncate w-full"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-8 h-8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+          <div class="truncate w-full" v-if="userStore.user && userStore.user.username">
+            {{ userStore.user.username }}
+          </div>
+        </div>
+
+        <div class="bg-red-800 flex items-center border-l-2 border-white transition px-5 group cursor-pointer hover:bg-red-900" @click="logout">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="size-6 transition group-hover:scale-110"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
         </div>
       </div>
     </nav>
@@ -235,6 +216,7 @@
               </div>
           </div> -->
     </div>
+
     <div
       class="col-span-3 px-8 border-l-2 border-gray-700 text-xl bg-gradient-to-r bg-red-700"
     >
@@ -263,18 +245,18 @@
                 type="text"
                 v-model="newCategoryName"
                 placeholder="Entrer une catégorie"
-                class="bg-gray-200 rounded-lg py-2 px-4 focus:outline-none"
+                class="bg-gray-200 py-2 px-4 focus:outline-none"
               />
               <div class="flex justify-end space-x-4">
                 <button
-                  class="bg-gray-500 py-2 px-4 rounded-lg font-semibold text-white"
+                  class="bg-gray-500 py-2 px-4 font-semibold text-white"
                   @click="modalCategory = !modalCategory"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  class="bg-green-500 py-2 px-4 rounded-lg font-semibold text-white"
+                  class="bg-green-500 py-2 px-4 font-semibold text-white"
                 >
                   Ajouter
                 </button>
@@ -303,19 +285,19 @@
                 type="text"
                 v-model="postData.title"
                 placeholder="Titre"
-                class="bg-gray-200 rounded-lg py-2 px-4 focus:outline-none"
+                class="bg-gray-200 py-2 px-4 focus:outline-none"
               />
               <textarea
                 type="description"
                 v-model="postData.description"
                 placeholder="Description"
-                class="bg-gray-200 rounded-lg py-2 px-4 focus:outline-none w-full h-40 max-h-40"
+                class="bg-gray-200 py-2 px-4 focus:outline-none w-full h-40 max-h-40"
               />
               <select
                 id="category"
                 v-model="postData.category"
                 required
-                class="text-gray-700 bg-gray-200 rounded-lg py-2 px-4 focus:outline-none"
+                class="text-gray-700 bg-gray-200 py-2 px-4 focus:outline-none"
               >
                 <option class="text-gray-400" value="">
                   Choisir une catégorie
@@ -325,7 +307,7 @@
               </select>
               <div class="flex justify-end space-x-4">
                 <button
-                  class="bg-gray-500 py-2 px-4 rounded-lg font-semibold text-white"
+                  class="bg-gray-500 py-2 px-4 font-semibold text-white"
                   @click="dialogVisible = false"
                 >
                   Annuler
@@ -333,7 +315,7 @@
                 <button
                   type="submit"
                   @click="submitForm"
-                  class="bg-green-500 py-2 px-4 rounded-lg font-semibold text-white"
+                  class="bg-green-500 py-2 px-4 font-semibold text-white"
                 >
                   Ajouter
                 </button>
@@ -383,6 +365,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-span-3 text-xl">
           <div
             class="sticky top-10 bg-red-700 text-white rounded-xl p-4 mr-4 mt-4"
@@ -462,9 +445,9 @@ export default {
     }
   },
   computed: {
-    user() {
+    userStore() {
       const userStore = useUserStore()
-      return userStore.user
+      return userStore
     },
     filteredCategories() {
       return this.categories.filter((category) =>
@@ -483,16 +466,14 @@ export default {
   //     immediate: true // Trigger the watcher immediately upon component creation
   //   }
   // },
+
   mounted() {
-    const userStore = useUserStore()
-    userStore.loadUserFromStorage()
     this.fetchCategories()
   },
   methods: {
     logout() {
-      const userStore = useUserStore()
-      userStore.resetUser()
-      this.$router.push('/register')
+      this.userStore.resetUser()
+      this.$router.push('/')
     },
     fetchCategories() {
       axios

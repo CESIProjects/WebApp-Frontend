@@ -121,7 +121,7 @@ export default {
           password: this.formData.password
         })
         .then((response) => {
-          console.log('User login successfully. ID:', response.data)
+          console.log('User login successfully. ID:', response)
 
           const userStore = useUserStore()
           userStore.setUser({
@@ -131,9 +131,8 @@ export default {
             isLoggedIn: true
           })
 
-          // setTimeout(() => {
-          //   this.$router.push('/')
-          // }, 500)
+          console.log('User connected:', userStore.user)
+
         })
         .catch((error) => {
           console.error('Error login user:', error)
