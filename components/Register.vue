@@ -41,7 +41,7 @@
                       v-model="formData.username"
                       type="username"
                       required
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
+                      class="appearance-none bg-white text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
                     />
                   </div>
                 </div>
@@ -60,7 +60,7 @@
                       v-model="formData.email"
                       type="email"
                       required
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
+                      class="appearance-none bg-white text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
                     />
                   </div>
                 </div>
@@ -79,7 +79,7 @@
                       v-model="formData.password"
                       type="password"
                       required
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
+                      class="appearance-none bg-white text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
                     />
                   </div>
                 </div>
@@ -98,7 +98,7 @@
                       v-model="formData.repeatPassword"
                       type="password"
                       required
-                      class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
+                      class="appearance-none bg-white text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none sm:text-sm"
                     />
                   </div>
                 </div>
