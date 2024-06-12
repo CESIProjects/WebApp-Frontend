@@ -37,7 +37,7 @@
         </div>
         <div class="flex flex-col mb-5 mt-6 text-lg">
           <NuxtLink
-            to="/post"
+            to="/posts"
             class="group flex items-center justify-between gap-x-2 bg-blue-400 text-blue-900 border-blue-300 hover:bg-gray-900 hover:text-blue-400 font-semibold p-3"
           >
             <svg
