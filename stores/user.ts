@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
 
 interface User {
-    isLoggedIn: Boolean;
-    role: String;
-    token: String;
-    username: String;
+  token: string | null;
+  isLoggedIn: boolean;
+  username: string;
+  email: string;
 }
 
-export const useUserStore = defineStore("userStore", {
-  state: () => ({
+export const useUserStore = defineStore('userStore', {
+  state: (): { user: User } => ({
     user: {
       isLoggedIn: false,
       role: "",
@@ -21,13 +21,16 @@ export const useUserStore = defineStore("userStore", {
   actions: {
     resetUser() {
       this.user = {
-        isLoggedIn: false,
-        role: "",
         token: null,
-        username: "",
+        isLoggedIn: false,
+        username: '',
+        email: '',
       };
+      if (process.client) {
+        localStorage.removeItem('user');
+      }
     },
-    setUser(user: any) {
+    setUser(user: User) {
       this.user = user;
     },
   },
