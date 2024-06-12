@@ -34,6 +34,6 @@ export const useUserStore = defineStore('userStore', {
     },
     setUser(user: User) {
       this.user = user;
-    }
-  }
+    },
+  },
 });
