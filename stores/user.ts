@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 interface User {
   token: string | null;
   isLoggedIn: boolean;
+  role: String;
   username: string;
   email: string;
 }
@@ -14,7 +15,7 @@ export const useUserStore = defineStore('userStore', {
       role: "",
       token: null,
       username: "",
-
+      email: ''
     },
   }),
   persist: true,
@@ -23,6 +24,7 @@ export const useUserStore = defineStore('userStore', {
       this.user = {
         token: null,
         isLoggedIn: false,
+        role: '',
         username: '',
         email: '',
       };
