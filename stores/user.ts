@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 interface User {
   token: string | null;
   isLoggedIn: boolean;
+  role: String;
   username: string;
   email: string;
 }
@@ -10,23 +11,20 @@ interface User {
 export const useUserStore = defineStore('userStore', {
   state: (): { user: User } => ({
     user: {
-      token: null,
       isLoggedIn: false,
-      username: '',
-      email: '',
+      role: "",
+      token: null,
+      username: "",
+      email: ''
     },
   }),
   persist: true,
   actions: {
-    saveUserToStorage() {
-      if (process.client) {
-        localStorage.setItem('user', JSON.stringify(this.user));
-      }
-    },
     resetUser() {
       this.user = {
         token: null,
         isLoggedIn: false,
+        role: '',
         username: '',
         email: '',
       };
@@ -36,7 +34,6 @@ export const useUserStore = defineStore('userStore', {
     },
     setUser(user: User) {
       this.user = user;
-      this.saveUserToStorage();
     }
   }
 });
