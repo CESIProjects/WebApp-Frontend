@@ -6,6 +6,7 @@ interface User {
   role: String;
   username: string;
   email: string;
+  id: string;
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -15,7 +16,8 @@ export const useUserStore = defineStore('userStore', {
       role: "",
       token: null,
       username: "",
-      email: ''
+      email: '',
+      id: ''
     },
   }),
   persist: true,
@@ -27,6 +29,7 @@ export const useUserStore = defineStore('userStore', {
         role: '',
         username: '',
         email: '',
+        id: ''
       };
       if (process.client) {
         localStorage.removeItem('user');
