@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-const { PLAYWRIGHT_CREDENTIALS } = process.env;
-// const PLAYWRIGHT_CREDENTIALS='{"username":"test","password":"test1234"}'
+// const { PLAYWRIGHT_CREDENTIALS } = process.env;
+const PLAYWRIGHT_CREDENTIALS='{"username":"test","password":"test1234"}'
 
 test('Post page', async ({ page, context }) => {
   if (!PLAYWRIGHT_CREDENTIALS) throw new Error('PLAYWRIGHT_CREDENTIALS is not defined');
