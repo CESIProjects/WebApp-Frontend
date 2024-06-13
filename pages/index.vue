@@ -26,63 +26,41 @@
         </div>
     </div>
 </template>
-<script>
-import Categories from '~/components/Categories.vue';
 
+<script>
+import axios from 'axios';
 
 export default {
-    data() {
-        return {
-            showForm: false,
-            editMode: false,
-            formData: {
-                name: '',
-                email: '',
-                password: '',
-            }
-        };
+  data() {
+    return {
+      posts: []
+    };
+  },
+  computed: {
+    userStore() {
+      return useUserStore();
     },
-    mounted() {
-    },
-    methods: {
-        // editCustomer(id) {
-        //     const customer = this.customers.find(c => c.id === id);
-
-        //     this.formData = { ...customer };
-
-        //     this.editMode = true;
-        //     this.showForm = true;
-        // },
-        // deleteCustomer(id) {
-        //     axios.delete(`http://localhost:8080/api/customers/${id}`)
-        //         .then(() => {
-        //             this.customers = this.customers.filter(c => c.id !== id);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error deleting customer:', error);
-        //         });
-        // },
-        // submitForm() {
-        //     if (this.editMode) {
-        //         axios.put(`http://localhost:8080/api/customers/${this.formData.id}`, this.formData)
-        //             .then(() => {
-        //                 this.fetchCustomers();
-        //             })
-        //             .catch(error => {
-        //                 console.error('Error updating customer:', error);
-        //             });
-        //     } else {
-        //         axios.post('http://localhost:8080/api/customers', this.formData)
-        //             .then(() => {
-        //                 this.fetchCustomers();
-        //             })
-        //             .catch(error => {
-        //                 console.error('Error creating customer:', error);
-        //             });
-        //     }
-        //     this.showForm = false;
-        //     this.editMode = false;
-        // },
-    },
+    route() {
+      return useRoute();
+    }
+  },
+  mounted() {
+    this.fetchPost();
+    console.log(posts)
+  },
+  methods: {
+    async fetchPost() {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/posts/${this.route.params.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.userStore.user.token}`,
+          },
+        });
+        this.posts = [response.data];
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      }
+    }
+  }
 };
 </script>
