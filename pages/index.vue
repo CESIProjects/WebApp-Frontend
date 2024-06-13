@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { useUserStore } from '@/stores/user';
+import { useRoute } from 'vue-router';
 
 export default {
   data() {
