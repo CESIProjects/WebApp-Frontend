@@ -1,88 +1,93 @@
 <template>
-  <div class="max-w-5xl mx-auto p-4 relative">
-    <div v-for="postItem in posts" :key="postItem.id" class="bg-white shadow-md rounded-lg overflow-hidden mb-4">
-      <!-- Edit Icon -->
-      <div class="absolute top-0 right-0 mt-4 mr-4">
-        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-          <!-- Heroicon pencil icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 114.243 4.243l-9.193 9.193-4.243 1.061 1.061-4.243 9.193-9.193z" />
-          </svg>
-        </button>
-      </div>
-      
-      <!-- Article Header -->
-      <div class="p-6 text-center bg-gray-100">
-        <h1 class="text-3xl font-bold text-gray-800">a</h1>
-        <p class="text-sm text-gray-500 mt-2">Publié le 12 Mars 2024</p>
-        <p class="text-sm text-gray-500">par <span class="font-semibold"><a href="#">b</a></span></p>
-      </div>
-      
-      <!-- Article Content -->
-      <div class="bg-gray-100 flex justify-center items-center">
-        <div class="p-6 bg-white w-[90%] rounded-md">
-          <p class="text-gray-700 leading-relaxed">t</p>
+    <div>
+        <div class="w-10/12 mx-auto text-black">
+            <div class="mb-10" v-for="post in posts" :key="post.id">
+                <NuxtLink :to="{ name: 'post-id', params: { id: post.id } }">
+                    <img src="/test_blog.jpg" style="height: 18rem;" class="bg-auto w-full rounded-3xl">
+                    <div class="my-4"><span class="bg-red-500 rounded-full text-black font-semibold px-4 py-1">Catégorie</span></div>
+                    <div class="text-4xl font-bold" >{{post.title}}</div>
+                    <div class="my-3 font-semibold text-gray-500 text-lg">{{post.content}}</div>
+                    <div class="py-1 mb-2 flex justify-between">
+                        <NuxtLink :to="{ name: 'profile-id', params: { id: post.userId } }" class="flex mt-1 z-20 group">
+                            <img src="/Gouvernement_N.png" class="w-8 h-8 mt-1 mr-3 rounded-full border-2" alt=""><div class="pt-1 group-hover:underline">Compte TEST</div>
+                        </NuxtLink>
+                        <div class="mr-2 group">
+                            <div class="flex"><div class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"><Icon name="icon-park-outline:like" size="1.5rem" /></div><span class="text-lg mt-1">12</span></div>
+                        </div>
+                    </div>
+                </NuxtLink>
+            </div>
         </div>
-      </div>
-      
-      <!-- Article Footer -->
-      <div class="bg-gray-100 p-6 text-center">
-        <p class="text-gray-600 text-sm">Catégorie: <span class="font-semibold"><a href="#">c</a></span></p>
-        <p class="text-gray-600 text-sm mt-2">Mots-clés: <span class="font-semibold">d</span></p>
-        
-        <!-- Social Share Module -->
-        <div class="mt-4">
-          <p class="text-gray-600 text-sm">Partager sur :</p>
-          <div class="flex justify-center mt-2">
-            <!-- Twitter -->
-            <a href="#" class="mr-4 text-blue-500 hover:text-blue-700"><i class="fab fa-twitter-square fa-2x"></i></a>
-            <!-- Facebook -->
-            <a href="#" class="mr-4 text-blue-600 hover:text-blue-800"><i class="fab fa-facebook-square fa-2x"></i></a>
-            <!-- LinkedIn -->
-            <a href="#" class="text-blue-700 hover:text-blue-900"><i class="fab fa-linkedin fa-2x"></i></a>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </template>
-
 <script>
 import axios from 'axios';
-import { useUserStore } from '@/stores/user';
-import { useRoute } from 'vue-router';
 
 export default {
-  data() {
-    return {
-      posts: []
-    };
-  },
-  computed: {
-    userStore() {
-      return useUserStore();
+    data() {
+        return {
+            customers: [],
+            posts: [],
+            showForm: false,
+            editMode: false,
+            formData: {
+                name: '',
+                email: '',
+                password: '',
+            }
+        };
     },
-    route() {
-      return useRoute();
-    }
-  },
-  mounted() {
-    this.fetchPost();
-    console.log(posts)
-  },
-  methods: {
-    async fetchPost() {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/posts/${this.route.params.id}`, {
-          headers: {
-            Authorization: `Bearer ${this.userStore.user.token}`,
-          },
-        });
-        this.posts = [response.data];
-      } catch (error) {
-        console.error('Error fetching post:', error);
-      }
-    }
-  }
+    mounted() {
+        this.fetchPosts();    
+    },
+    methods: {
+        fetchPosts() {
+            axios.get('http://localhost:8080/api/posts')
+                .then(response => {
+                    this.posts = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching customers:', error);
+                });
+        },
+        // editCustomer(id) {
+        //     const customer = this.customers.find(c => c.id === id);
+
+        //     this.formData = { ...customer };
+
+        //     this.editMode = true;
+        //     this.showForm = true;
+        // },
+        // deleteCustomer(id) {
+        //     axios.delete(`http://localhost:8080/api/customers/${id}`)
+        //         .then(() => {
+        //             this.customers = this.customers.filter(c => c.id !== id);
+        //         })
+        //         .catch(error => {
+        //             console.error('Error deleting customer:', error);
+        //         });
+        // },
+        // submitForm() {
+        //     if (this.editMode) {
+        //         axios.put(`http://localhost:8080/api/customers/${this.formData.id}`, this.formData)
+        //             .then(() => {
+        //                 this.fetchCustomers();
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error updating customer:', error);
+        //             });
+        //     } else {
+        //         axios.post('http://localhost:8080/api/customers', this.formData)
+        //             .then(() => {
+        //                 this.fetchCustomers();
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error creating customer:', error);
+        //             });
+        //     }
+        //     this.showForm = false;
+        //     this.editMode = false;
+        // },
+    },
 };
 </script>
