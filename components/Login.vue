@@ -128,6 +128,8 @@ export default {
             username: this.formData.username,
             token: response.data.accessToken,
             role: response.data.role,
+            email: response.data.email,
+            id: response.data.id,
             isLoggedIn: true
           })
 
