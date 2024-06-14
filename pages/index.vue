@@ -36,19 +36,9 @@ export default {
         };
     },
     mounted() {
-        this.fetchCustomers();  
         this.fetchPosts();    
     },
     methods: {
-        fetchCustomers() {
-            axios.get('http://localhost:8080/api/customers')
-                .then(response => {
-                    this.customers = response.data;
-                })
-                .catch(error => {
-                    console.error('Error fetching customers:', error);
-                });
-        },
         fetchPosts() {
             axios.get('http://localhost:8080/api/posts')
                 .then(response => {

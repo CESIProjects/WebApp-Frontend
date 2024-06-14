@@ -103,7 +103,8 @@ export default {
             <p v-if="userStore.user.role === 'ROLE_USER'" class="text-sm text-gray-500">Rôle : User</p>
             <p v-if="userStore.user.role === 'ROLE_MOD'" class="text-sm text-gray-500">Rôle : Modérateur</p>
             <p v-if="userStore.user.role === 'ROLE_ADMIN'" class="text-sm text-gray-500">Rôle : Administrateur</p>
-            <p v-if="userStore.user.role === 'ROLE_SUPERADMIN'" class="text-sm text-gray-500">Rôle : Super Administrateur</p>
+            <p v-if="userStore.user.role === 'ROLE_SUPERADMIN'" class="text-sm text-gray-500">Rôle : Super
+              Administrateur</p>
           </div>
         </div>
       </div>
@@ -112,10 +113,14 @@ export default {
           <h2 class="text-lg font-semibold text-gray-800 mb-2">Modifier le mot de passe</h2>
           <form @submit.prevent="updatePassword">
             <div class="grid grid-cols-3">
-              <input v-model="formData.oldPassword" type="password" placeholder="Ancien mot de passe" class="border rounded-md px-4 py-2 mb-2 md:mr-2">
-              <input v-model="formData.newPassword" type="password" placeholder="Nouveau mot de passe" class="border rounded-md px-4 py-2 mb-2 md:mr-2">
-              <input v-model="formData.confirmPassword" type="password" placeholder="Confirmer le mot de passe" class="border rounded-md px-4 py-2 mb-2 md:mr-2">
-              <button type="submit" class="bg-blue-500 col-span-3 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Changer</button>
+              <input v-model="formData.oldPassword" type="password" placeholder="Ancien mot de passe"
+                class="border rounded-md px-4 py-2 mb-2 md:mr-2">
+              <input v-model="formData.newPassword" type="password" placeholder="Nouveau mot de passe"
+                class="border rounded-md px-4 py-2 mb-2 md:mr-2">
+              <input v-model="formData.confirmPassword" type="password" placeholder="Confirmer le mot de passe"
+                class="border rounded-md px-4 py-2 mb-2 md:mr-2">
+              <button type="submit"
+                class="bg-blue-500 col-span-3 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Changer</button>
             </div>
           </form>
           <p v-if="errorMessage" class="text-red-500 text-center">{{ errorMessage }}</p>

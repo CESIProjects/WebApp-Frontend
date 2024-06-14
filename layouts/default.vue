@@ -1,9 +1,7 @@
 <template>
   <div class="grid grid-cols-12 police">
     <SidebarLeft />
-    <div
-      class="col-span-7 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative"
-    >
+    <div class="col-span-7 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative">
       <slot />
       <!-- <div class="absolute right-0 top-4 border-l-2 border-y-2 rounded-l-xl bg-white">
               <div class="p-6 flex justify-center items-center">
@@ -12,7 +10,7 @@
               </div>
           </div> -->
     </div>
-    <SidebarRight />
+    <SidebarRight :categories="categories" :fetch-posts-by-category="fetchPostsByCategory" />
   </div>
 </template>
 
@@ -23,7 +21,7 @@ import SidebarRight from '~/components/SidebarRight.vue'
 import SidebarLeft from '~/components/SidebarLeft.vue'
 
 export default {
-  components: { SidebarRight,SidebarLeft },
+  components: { SidebarRight, SidebarLeft },
   data() {
     return {
       dialogVisible: false,
@@ -45,6 +43,7 @@ export default {
         description: '',
         category: '',
       },
+      selectedCategory: null,
       newCategoryName: '',
       modalCategory: false,
     }
@@ -82,7 +81,7 @@ export default {
     },
     fetchCategories() {
       axios
-        .get('http://localhost:8080/api/posts')
+        .get('http://localhost:8080/api/categories')
         .then((response) => {
           this.categories = response.data
         })
@@ -90,11 +89,19 @@ export default {
           console.error('Error fetching categories:', error)
         })
     },
+    async fetchPostsByCategory(categoryId) {
+      this.selectedCategory = categoryId;
+      try {
+        const response = await axios.get(`http://localhost:8080/api/posts?categoryId=${categoryId}`);
+        this.posts = response.data;
+      } catch (error) {
+        console.error('Error fetching posts by category:', error);
+      }
+    },
     createCategory() {
       const newCategory = {
         name: this.newCategoryName,
       }
-
       axios
         .post('http://localhost:8080/api/categories', newCategory)
         .then((response) => {
@@ -133,9 +140,9 @@ export default {
           title: this.postData.title,
           content: this.postData.description,
           publicationDate: publicationDate,
-          popular: true, // Vous devez déterminer comment définir cette valeur
-          userId: 0, // Vous devez déterminer comment obtenir l'ID de l'utilisateur
-          categoryId: 0, // Vous devez déterminer comment obtenir l'ID de la catégorie
+          popular: true,
+          userId: 0,
+          categoryId: 0,
         }
 
         // Effectuer la requête POST avec Axios
@@ -170,6 +177,7 @@ export default {
 .bg-main-color {
   background-color: #710000;
 }
+
 .police {
   font-family: cursive;
 }
