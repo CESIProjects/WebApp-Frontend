@@ -35,9 +35,17 @@
         </div>
       </div>
     </div>
-    <div class="mt-4">
-      <p>Ajouter un commentaire</p>
-    </div>
+    <!-- Comments area -->
+     <div>
+      <h2 class="text-2xl font-bold text-gray-800 mt-8">Commentaires</h2>
+      <div class="mt-4">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <div class="p-6 bg-gray-100">
+            <p class="text-gray-700">Aucun commentaire pour le moment.</p>
+          </div>
+        </div>
+      </div>
+     </div>
   </div>
 </template>
 

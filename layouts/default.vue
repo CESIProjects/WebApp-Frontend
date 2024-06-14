@@ -1,10 +1,8 @@
 <template>
   <div class="grid grid-cols-12 police">
     <SidebarLeft />
-    <div
-      class="col-span-7 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative"
-    >
-      <slot />
+    <div class="col-span-10 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative">
+      <slot/>
       <!-- <div class="absolute right-0 top-4 border-l-2 border-y-2 rounded-l-xl bg-white">
               <div class="p-6 flex justify-center items-center">
               <div class="text-3xl">Bienvenue sur le réseau ministériel</div>
@@ -12,18 +10,16 @@
               </div>
           </div> -->
     </div>
-    <SidebarRight />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { useUserStore } from '@/stores/user.ts'
-import SidebarRight from '~/components/SidebarRight.vue'
 import SidebarLeft from '~/components/SidebarLeft.vue'
 
 export default {
-  components: { SidebarRight,SidebarLeft },
+  components: { SidebarLeft },
   data() {
     return {
       dialogVisible: false,
@@ -45,6 +41,7 @@ export default {
         description: '',
         category: '',
       },
+      selectedCategory: null,
       newCategoryName: '',
       modalCategory: false,
     }
@@ -74,6 +71,7 @@ export default {
 
   mounted() {
     this.fetchCategories()
+    this.fetchPosts()
   },
   methods: {
     logout() {
@@ -82,7 +80,7 @@ export default {
     },
     fetchCategories() {
       axios
-        .get('http://localhost:8080/api/posts')
+        .get('http://localhost:8080/api/categories')
         .then((response) => {
           this.categories = response.data
         })
@@ -90,11 +88,30 @@ export default {
           console.error('Error fetching categories:', error)
         })
     },
+    async fetchPosts() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/posts');
+        this.posts = response.data; // Assign fetched posts to data variable
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    },
+    async fetchPostsByCategory(categoryId) {
+      this.selectedCategory = categoryId;
+      try {
+        console.log('test')
+        const response = await axios.get(`http://localhost:8080/api/posts?categoryId=${categoryId}`);
+        console.log(response.data)
+        this.posts = response.data;
+        console.log(this.posts)
+      } catch (error) {
+        console.error('Error fetching posts by category:', error);
+      }
+    },
     createCategory() {
       const newCategory = {
         name: this.newCategoryName,
       }
-
       axios
         .post('http://localhost:8080/api/categories', newCategory)
         .then((response) => {
@@ -133,9 +150,9 @@ export default {
           title: this.postData.title,
           content: this.postData.description,
           publicationDate: publicationDate,
-          popular: true, // Vous devez déterminer comment définir cette valeur
-          userId: 0, // Vous devez déterminer comment obtenir l'ID de l'utilisateur
-          categoryId: 0, // Vous devez déterminer comment obtenir l'ID de la catégorie
+          popular: true,
+          userId: 0,
+          categoryId: 0,
         }
 
         // Effectuer la requête POST avec Axios
@@ -170,6 +187,7 @@ export default {
 .bg-main-color {
   background-color: #710000;
 }
+
 .police {
   font-family: cursive;
 }
