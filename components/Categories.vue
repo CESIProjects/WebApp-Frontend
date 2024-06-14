@@ -58,36 +58,6 @@
           </form>
         </div>
       </div>
-      <div class="col-span-9">
-        <div class="w-10/12 mx-auto px-8">
-          <div class="mb-10" v-for="(post, index) in posts" :key="index">
-            <img src="~/assets/test_blog.jpg" style="height: 18rem;" class="bg-auto w-full rounded-3xl" />
-            <div class="my-4">
-              <span class="bg-red-500 rounded-full text-white font-semibold px-4 py-1">
-                Catégorie
-              </span>
-            </div>
-            <div class="text-4xl font-bold">{{ post.title }}</div>
-            <div class="my-3 font-semibold text-gray-500 text-lg">
-              {{ post.content }}
-            </div>
-            <div class="py-1 mb-2 flex justify-between">
-              <div class="flex">
-                <img src="~/assets/Gouvernement_N.png" class="w-8 h-8 mt-1 mr-3 rounded-full border-2" alt="" />
-                <div class="pt-1">Compte TEST</div>
-              </div>
-              <div class="mr-2 cursor-pointer group">
-                <div class="flex">
-                  <div class="group-hover:bg-red-500 group-hover:bg-opacity-50 transition rounded-full p-2 mr-2">
-                    <img src="~/assets/svg/like_post.svg" />
-                  </div>
-                  <span class="mt-1">0</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="col-span-3 text-xl">
         <div class="sticky top-10 bg-red-700 text-white rounded-xl p-4 mr-4 mt-4">
@@ -130,6 +100,10 @@ import { useUserStore } from '@/stores/user.ts'
 
 export default {
   props: {
+    posts: {
+      type: Array,
+      required: true
+    },
     categories: {
       type: Array,
       required: true
@@ -144,7 +118,6 @@ export default {
       dialogVisible: false,
       createPost: false,
 
-      posts: [],
       searchQuery: '',
       showForm: false,
       editMode: false,
