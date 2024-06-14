@@ -1,14 +1,14 @@
 <template>
   <div v-for="postItem in posts" :key="postItem.id" class="max-w-5xl mx-auto">
     <div class="flex justify-between text-lg text-gray-500 my-2">
-      <p class="bg-red-500 rounded-full px-4 py-1 text-white">Catégorie 2</p>
-      <p>Publié le {{ formatDate(postItem.publicationDate) }}</p>
+      <p class="bg-red-500 rounded-full px-4 py-1 text-white">{{postItem.categoryName}}</p>
+      <p>Publié {{ formatDate(postItem.publicationDate) }} par <span class="font-bold capitalize">{{postItem.username}}</span></p>
     </div>
     <img src="/test_blog.jpg" style="height: 18rem;" class="bg-auto w-full rounded-3xl mb-4">
 
     <div class="relative bg-white shadow-md rounded-lg w-full p-4">
       <div class="overflow-hidden mb-4">
-        <div class="absolute top-8 right-8">
+        <div class="absolute top-8 right-8" v-if="userStore.user.id === postItem.userId">
           <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
             <Icon name="material-symbols:edit-square-outline" size="2rem" /> 
           </button>
@@ -26,7 +26,13 @@
         <div class="flex justify-center items-center border-t border-black mt-4">
           <div class="pt-6 w-full grid grid-cols-2 gap-4 items-center">
             <div class="mr-2 group flex justify-center">
-                <div class="flex"><div class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"><Icon name="icon-park-outline:like" size="1.5rem" /></div><span class="text-lg mt-1">12</span></div>
+              <div class="flex group" @click="addLike(postItem.likedByCurrentUser)">
+                <div class="group-hover:bg-red-500 group-hover:bg-opacity-20 rounded-full transition duration-300 mr-2 px-1.5 py-1"
+                    :class="{'text-red-500': postItem.likedByCurrentUser, 'group-hover:text-red-500': !postItem.likedByCurrentUser}">
+                  <Icon :name="postItem.likedByCurrentUser ? 'material-symbols:favorite' : 'material-symbols:favorite-outline'" size="1.5rem" />
+                </div>
+                <span class="text-lg mt-1 group-hover:text-red-500 transition duration-300" :class="{'text-red-500': postItem.likedByCurrentUser}">{{ postItem.likeCount }}</span>
+              </div>
             </div>
             <div class="mr-2 group flex justify-center">
                 <div class="flex"><div class="group-hover:bg-blue-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"><Icon name="iconamoon:comment-dots-light" size="1.5rem" /></div><span class="text-lg mt-1">12</span></div>
@@ -37,6 +43,7 @@
     </div>
     <div class="mt-4">
       <p>Ajouter un commentaire</p>
+      <textarea name="content" id="" cols="30" rows="10"></textarea>
     </div>
   </div>
 </template>
@@ -73,9 +80,29 @@ export default {
             Authorization: `Bearer ${this.userStore.user.token}`,
           },
         });
-        this.posts = [response.data];
+        const post = response.data;
+
+        const likesResponse = await axios.get(`http://localhost:8080/api/likes/post/${this.route.params.id}`);
+        const likes = likesResponse.data;
+
+        post.likeCount = likes.length;
+        post.likedByCurrentUser = likes.includes(this.userStore.user.id);
+
+        this.posts = [post];
       } catch (error) {
         console.error('Error fetching post:', error);
+      }
+    },
+    async addLike(isLiked) {
+      try {
+        if (isLiked) {
+          await axios.delete(`http://localhost:8080/api/likes/delete?userId=${this.userStore.user.id}&postId=${parseInt(this.route.params.id)}`);
+        } else {
+          await axios.post(`http://localhost:8080/api/likes/post?userId=${this.userStore.user.id}&postId=${parseInt(this.route.params.id)}`);
+        }
+        this.fetchPost()
+      } catch (error) {
+        console.error('Error adding like:', error);
       }
     },
     formatDate(date) {

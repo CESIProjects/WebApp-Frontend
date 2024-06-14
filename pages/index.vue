@@ -11,7 +11,7 @@
           <div class="my-4">
             <span
               class="bg-red-500 rounded-full text-black font-semibold px-4 py-1"
-              >Catégorie</span
+              >{{ post.categoryName }}</span
             >
           </div>
           <div class="text-4xl font-bold">{{ post.title }}</div>
@@ -22,12 +22,7 @@
             <div
               class="flex mt-1 z-20 group"
             >
-              <img
-                src="/Gouvernement_N.png"
-                class="w-8 h-8 mt-1 mr-3 rounded-full border-2"
-                alt=""
-              />
-              <div class="pt-1 group-hover:underline">Compte TEST</div>
+              <div class="pt-1">Écris par : <span class="group-hover:underline capitalize font-bold">{{post.username}}</span></div>
             </div>
             <div class="mr-2 group">
               <div class="flex">

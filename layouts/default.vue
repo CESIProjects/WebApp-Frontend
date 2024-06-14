@@ -2,7 +2,7 @@
   <div class="grid grid-cols-12 police">
     <SidebarLeft />
     <div
-      class="col-span-7 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative"
+      class="col-span-10 p-8 bg-gradient-to-r from-gray-100 via-white to-gray-100 relative"
     >
       <slot />
       <!-- <div class="absolute right-0 top-4 border-l-2 border-y-2 rounded-l-xl bg-white">
@@ -12,7 +12,6 @@
               </div>
           </div> -->
     </div>
-    <SidebarRight />
   </div>
 </template>
 

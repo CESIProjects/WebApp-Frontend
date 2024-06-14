@@ -71,6 +71,7 @@
                 <button
                   class="bg-green-500 rounded-full px-1.5 hover:scale-110 transition"
                   @click="modalCategory = !modalCategory"
+                  v-if="userStore.user.role !== ROLES.USER"
                 >
                   <Icon name="ep:plus" color="black" class="h-8" />
                 </button>
@@ -80,10 +81,11 @@
                   <div class="font-semibold flex justify-between">
                     {{ category.name }}
                     <button
-                      class="hover:bg-red-500 rounded-full py-1 px-2 -mt-1"
+                      class="hover:bg-red-500 rounded-full py-1 px-1.5 -mt-1"
                       @click="deleteCategory(category.id)"
+                      v-if="userStore.user.role !== ROLES.USER"
                     >
-                      <i class="pi pi-times"></i>
+                      <Icon name="material-symbols:delete-outline" size="1.8rem" class="h-8" />
                     </button>
                   </div>
                 </li>
@@ -98,6 +100,7 @@
 <script>
 import axios from 'axios'
 import { useUserStore } from '@/stores/user.ts'
+import { ROLES } from '@/constants/index.js'
 
 export default {
   data() {
@@ -123,6 +126,7 @@ export default {
       },
       newCategoryName: '',
       modalCategory: false,
+      ROLES
     }
   },
   computed: {
