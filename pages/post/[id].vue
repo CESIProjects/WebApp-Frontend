@@ -1,5 +1,9 @@
 <template>
-  <div v-for="postItem in posts" :key="postItem.id" class="max-w-5xl mx-auto">
+<div>
+  <div class="absolute top-5 left-5 hover:scale-110 transition duration-300">
+    <Icon name="material-symbols:arrow-back" size="2.5rem" @click="$router.back()" />
+  </div>
+  <div v-for="postItem in posts" :key="postItem.id" class="w-11/12 mx-auto relative">
     <div class="flex justify-between text-lg text-gray-500 my-2">
       <p class="bg-red-500 rounded-full px-4 py-1 text-white">{{postItem.categoryName}}</p>
       <p>Publié {{ formatDate(postItem.publicationDate) }} par <span class="font-bold capitalize">{{postItem.username}}</span></p>
@@ -35,17 +39,27 @@
               </div>
             </div>
             <div class="mr-2 group flex justify-center">
-                <div class="flex"><div class="group-hover:bg-blue-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"><Icon name="iconamoon:comment-dots-light" size="1.5rem" /></div><span class="text-lg mt-1">12</span></div>
+                <div class="flex"><div class="group-hover:bg-blue-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"><Icon name="iconamoon:comment-dots-light" size="1.5rem" /></div><span class="text-lg mt-1">{{comments.length}}</span></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="mt-4">
-      <p>Ajouter un commentaire</p>
-      <textarea name="content" id="" cols="30" rows="10"></textarea>
+    <div class="mt-4 border-b-4 border-gray-300 py-4">
+      <p class="text-xl mb-2">Ajouter un commentaire</p>
+      <textarea v-model="newCommentText" class="w-full border rounded p-2 mb-2"></textarea>
+      <button @click="addComment()" class="bg-blue-500 text-white rounded px-4 py-2">Envoyer</button>
+    </div>
+    <div class="bg-white p-4 shadow-md rounded-lg mt-4">
+      <div class="flex flex-col space-y-4">
+        <div v-for="comment in comments" :key="comment.id" class="flex flex-col space-y-1" >
+          <span class="text-lg font-bold capitalize">{{comment.username}}</span>
+          <div>{{comment.content}}</div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -58,7 +72,8 @@ import { useRoute } from 'vue-router';
 export default {
   data() {
     return {
-      posts: []
+      posts: [],
+      comments: []
     };
   },
   computed: {
@@ -71,6 +86,7 @@ export default {
   },
   mounted() {
     this.fetchPost();
+    this.fetchComments();
   },
   methods: {
     async fetchPost() {
@@ -93,6 +109,18 @@ export default {
         console.error('Error fetching post:', error);
       }
     },
+    async fetchComments() {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/comments/post/${this.route.params.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.userStore.user.token}`,
+          },
+        });
+        this.comments = response.data;
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      }
+    },
     async addLike(isLiked) {
       try {
         if (isLiked) {
@@ -103,6 +131,19 @@ export default {
         this.fetchPost()
       } catch (error) {
         console.error('Error adding like:', error);
+      }
+    },
+    async addComment() {
+      try {
+        await axios.post('http://localhost:8080/api/comments/post', {
+          content: this.newCommentText,
+          postId: parseInt(this.route.params.id),
+          userId: this.userStore.user.id
+        });
+        this.newCommentText = '';
+        this.fetchComments();
+      } catch (error) {
+        console.error('Error adding comment:', error);
       }
     },
     formatDate(date) {

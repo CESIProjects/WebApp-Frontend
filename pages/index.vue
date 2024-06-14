@@ -25,14 +25,6 @@
               <div class="pt-1">Écris par : <NuxtLink class="group-hover:underline capitalize font-bold" :to="'/profile/' + post.userId">{{post.username}}</NuxtLink></div>
             </div>
             <div class="mr-2 group">
-              <div class="flex">
-                <div
-                  class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"
-                >
-                  <Icon name="icon-park-outline:like" size="1.5rem" />
-                </div>
-                <span class="text-lg mt-1">12</span>
-              </div>
             </div>
           </div>
         </NuxtLink>
