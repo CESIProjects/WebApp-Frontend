@@ -20,7 +20,7 @@
           </div>
           <div class="py-1 mb-2 flex justify-between">
             <NuxtLink
-              :to="{ name: 'profile-id', params: { id: post.userId } }"
+              :to="'/profile/' + post.userId"
               class="flex mt-1 z-20 group"
             >
               <img
