@@ -165,7 +165,7 @@
       </div>
       <div class="flex w-full mt-5 border-t-2 border-white">
         <NuxtLink
-            to="/profile"
+            :to="'/profile/' + userStore.user.id"
             class="flex items-center justify-start p-3 bg-blue-800 gap-x-2 cursor-pointer text-white hover:bg-blue-700 transition truncate w-full"
           >
             <svg

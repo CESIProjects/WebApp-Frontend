@@ -22,7 +22,7 @@
             <div
               class="flex mt-1 z-20 group"
             >
-              <div class="pt-1">Écris par : <span class="group-hover:underline capitalize font-bold">{{post.username}}</span></div>
+              <div class="pt-1">Écris par : <NuxtLink class="group-hover:underline capitalize font-bold" :to="'/profile/' + post.userId">{{post.username}}</NuxtLink></div>
             </div>
             <div class="mr-2 group">
               <div class="flex">
