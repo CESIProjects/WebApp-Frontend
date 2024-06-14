@@ -2,8 +2,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user.ts'
 
-const userStore = useUserStore()
-
 // Créer une instance d'axios personnalisée
 const api = axios.create({
   baseURL: 'http://localhost:8080/api/auth'
@@ -11,6 +9,7 @@ const api = axios.create({
 
 // Ajouter un interceptor pour inclure le token JWT dans l'en-tête Authorization
 api.interceptors.request.use(config => {
+  const userStore = useUserStore()
   const token = userStore.user.token
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
@@ -28,16 +27,31 @@ export default {
         newPassword: '',
         confirmPassword: '',
       },
+      postsUser: [],
       errorMessage: '',
       successMessage: '',
+      showChangePassword: false,
     };
   },
   computed: {
     userStore() {
+      const userStore = useUserStore()
       return userStore
     },
   },
+  mounted() {
+    this.fetchPosts();    
+  },
   methods: {
+    fetchPosts() {
+        api.get(`http://localhost:8080/api/posts/user/${this.$route.params.id}`)
+            .then(response => {
+                this.postsUser = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+            });
+    },
     updatePassword() {
       if (!this.formData.oldPassword || !this.formData.newPassword || !this.formData.confirmPassword) {
         this.errorMessage = 'Veuillez remplir tous les champs.'
@@ -86,7 +100,19 @@ export default {
         this.errorMessage = ''
         this.successMessage = ''
       }, 2000)
+    },
+    checkPermission() {
+      const userIdFromUrl = parseInt(this.$route.params.id);
+      const loggedInUserId = this.userStore.user.id;
+
+      if (userIdFromUrl && loggedInUserId && userIdFromUrl === loggedInUserId) {
+        this.showChangePassword = true;
+        this.showChangePassword = false;
+      }
     }
+  },
+  created() {
+    this.checkPermission();
   }
 }
 </script>
@@ -109,7 +135,7 @@ export default {
         </div>
       </div>
       <div class="p-6">
-        <div class="mb-4">
+        <div v-if="showChangePassword" class="mb-4">
           <h2 class="text-lg font-semibold text-gray-800 mb-2">Modifier le mot de passe</h2>
           <form @submit.prevent="updatePassword">
             <div class="grid grid-cols-3">
@@ -133,6 +159,41 @@ export default {
         <div>
           <h2 class="text-lg font-semibold text-gray-800 mb-2">Autres informations</h2>
           <p class="text-gray-600">Date de création du compte : 10 Avril 2022</p>
+        </div>
+      </div>
+      <div class="p-6 bg-gray-5à">
+        <div v-for="post in postsUser" :key="post.id" class="mb-10 grid grid-cols-2">
+            <div>
+                <img
+                    src="/test_blog.jpg"
+                    style="height: 18rem"
+                    class="bg-auto w-full rounded-3xl"
+                />
+                <div class="grid grid-cols-2 mt-6">
+                    <div class="my-4">
+                        <span
+                        class="bg-red-500 rounded-full text-black font-semibold px-4 py-1"
+                        >Catégorie
+                        </span>
+                    </div>
+                    <div class="text-4xl font-bold">{{ post.title }}</div>
+                    <div class="my-3 font-semibold text-gray-500 text-lg">
+                        {{ post.content }}
+                    </div>
+                    <div class="py-1 mb-2 flex justify-between">
+                        <div class="mr-2 group">
+                            <div class="flex">
+                                <div
+                                class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"
+                                >
+                                    <Icon name="icon-park-outline:like" size="1.5rem" />
+                                </div>
+                                <span class="text-lg mt-1">12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>
