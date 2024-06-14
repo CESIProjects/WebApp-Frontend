@@ -58,7 +58,7 @@ export default {
             });
     },
     fetchUsername() {
-        api.get(`http://localhost:8080/api/auth/getUserById/{userId}?userId=${this.$route.params.id}`)
+        api.get(`http://localhost:8080/api/auth/getUserById/${this.$route.params.id}`)
             .then(response => {
                 this.getUserById = response.data;
             })
