@@ -19,7 +19,8 @@
             {{ post.content }}
           </div>
           <div class="py-1 mb-2 flex justify-between">
-            <div
+            <NuxtLink
+              :to="'/profile/' + post.userId"
               class="flex mt-1 z-20 group"
             >
               <img
@@ -28,7 +29,7 @@
                 alt=""
               />
               <div class="pt-1 group-hover:underline">Compte TEST</div>
-            </div>
+            </NuxtLink>
             <div class="mr-2 group">
               <div class="flex">
                 <div
