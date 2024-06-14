@@ -2,8 +2,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user.ts'
 
-const userStore = useUserStore()
-
 // Créer une instance d'axios personnalisée
 const api = axios.create({
   baseURL: 'http://localhost:8080/api/auth'
@@ -11,6 +9,7 @@ const api = axios.create({
 
 // Ajouter un interceptor pour inclure le token JWT dans l'en-tête Authorization
 api.interceptors.request.use(config => {
+  const userStore = useUserStore()
   const token = userStore.user.token
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
@@ -28,16 +27,45 @@ export default {
         newPassword: '',
         confirmPassword: '',
       },
+      postsUser: [],
+      getUserById: [],
       errorMessage: '',
       successMessage: '',
+      showChangePassword: false,
     };
   },
   computed: {
     userStore() {
+      const userStore = useUserStore()
       return userStore
     },
+    postCount() {
+      return this.postsUser.length;
+    }
+  },
+  mounted() {
+    this.fetchPosts(); 
+    this.fetchUsername();   
   },
   methods: {
+    fetchPosts() {
+        api.get(`http://localhost:8080/api/posts/user/${this.$route.params.id}`)
+            .then(response => {
+                this.postsUser = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+            });
+    },
+    fetchUsername() {
+        api.get(`http://localhost:8080/api/auth/getUserById/{userId}?userId=${this.$route.params.id}`)
+            .then(response => {
+                this.getUserById = response.data;
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+            });
+    },
     updatePassword() {
       if (!this.formData.oldPassword || !this.formData.newPassword || !this.formData.confirmPassword) {
         this.errorMessage = 'Veuillez remplir tous les champs.'
@@ -86,28 +114,42 @@ export default {
         this.errorMessage = ''
         this.successMessage = ''
       }, 2000)
+    },
+    checkPermission() {
+        const userIdFromUrl = parseInt(this.$route.params.id);
+        const loggedInUserId = this.userStore.user.id;
+        if (!isNaN(userIdFromUrl) && loggedInUserId && userIdFromUrl === loggedInUserId) {
+            this.showChangePassword = true;
+        } else {
+            this.showChangePassword = false;
+        }
     }
+  },
+  created() {
+    this.checkPermission();
   }
 }
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-4">
+  <div class="mx-auto p-4">
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
       <div class="p-6 bg-gray-100">
         <div class="flex items-center">
-          <img src="" alt="Profil Picture" class="w-16 h-16 rounded-full mr-4">
+          <!-- <img src="" alt="Profil Picture" class="w-16 h-16 rounded-full mr-4"> -->
           <div>
-            <h1 class="text-xl font-bold text-gray-800">{{ userStore.user.username }}</h1>
-            <p class="text-sm text-gray-500">Email : {{ userStore.user.email }}</p>
-            <p v-if="userStore.user.role === 'ROLE_USER'" class="text-sm text-gray-500">Rôle : User</p>
-            <p v-if="userStore.user.role === 'ROLE_MOD'" class="text-sm text-gray-500">Rôle : Modérateur</p>
-            <p v-if="userStore.user.role === 'ROLE_ADMIN'" class="text-sm text-gray-500">Rôle : Administrateur</p>
-            <p v-if="userStore.user.role === 'ROLE_SUPERADMIN'" class="text-sm text-gray-500">Rôle : Super Administrateur</p>
+            <h1 class="text-xl font-bold text-gray-800">Profil : {{ getUserById.username }}</h1>
+            <p  v-if="showChangePassword" class="text-sm text-gray-500">Email : {{ userStore.user.email }}</p>
+            <div v-if="showChangePassword">
+              <p v-if="userStore.user.role === 'ROLE_USER'" class="text-sm text-gray-500">Rôle : User</p>
+              <p v-if="userStore.user.role === 'ROLE_MOD'" class="text-sm text-gray-500">Rôle : Modérateur</p>
+              <p v-if="userStore.user.role === 'ROLE_ADMIN'" class="text-sm text-gray-500">Rôle : Administrateur</p>
+              <p v-if="userStore.user.role === 'ROLE_SUPERADMIN'" class="text-sm text-gray-500">Rôle : Super Administrateur</p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="p-6">
+      <div v-if="showChangePassword" class="p-6">
         <div class="mb-4">
           <h2 class="text-lg font-semibold text-gray-800 mb-2">Modifier le mot de passe</h2>
           <form @submit.prevent="updatePassword">
@@ -121,13 +163,38 @@ export default {
           <p v-if="errorMessage" class="text-red-500 text-center">{{ errorMessage }}</p>
           <p v-if="successMessage" class="text-green-500 text-center">{{ successMessage }}</p>
         </div>
-        <div class="mb-4">
-          <h2 class="text-lg font-semibold text-gray-800 mb-2">Nombre de posts créés</h2>
-          <p class="text-gray-600">23</p>
-        </div>
-        <div>
+        <!-- <div>
           <h2 class="text-lg font-semibold text-gray-800 mb-2">Autres informations</h2>
           <p class="text-gray-600">Date de création du compte : 10 Avril 2022</p>
+        </div> -->
+      </div>
+      <div class="p-6 bg-gray-50">
+        <h1 class="text-2xl pb-6">Publication(s) {{ postCount }} :  </h1>
+        <div v-for="post in postsUser" :key="post.id" class="mb-10 grid grid-cols-3">
+            <div>
+                <img
+                    src="/test_blog.jpg"
+                    class="bg-auto rounded-3xl h-52"
+                />
+                <div class="mt-2">
+                    <div class="text-2xl text-center font-bold">{{ post.title }}</div>
+                    <div class="mt-2 font-semibold text-gray-500 text-center text-md">
+                        {{ post.content }}
+                    </div>
+                    <!-- <div class="py-1 mb-2 flex justify-between">
+                        <div class="mr-2 group">
+                            <div class="flex">
+                                <div
+                                class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"
+                                >
+                                    <Icon name="icon-park-outline:like" size="1.5rem" />
+                                </div>
+                                <span class="text-lg mt-1">12</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
         </div>
       </div>
     </div>
