@@ -3,7 +3,7 @@
   <div class="absolute top-5 left-5 hover:scale-110 transition duration-300">
     <Icon name="material-symbols:arrow-back" size="2.5rem" @click="$router.back()" />
   </div>
-  <div v-for="postItem in posts" :key="postItem.id" class="w-11/12 mx-auto relative">
+  <div v-for="postItem in posts" :key="postItem.id" class="w-11/12 mx-auto relative pt-8">
     <div class="flex justify-between text-lg text-gray-500 my-2">
       <p class="bg-red-500 rounded-full px-4 py-1 text-white">{{postItem.categoryName}}</p>
       <p>Publié {{ formatDate(postItem.publicationDate) }} par <span class="font-bold capitalize">{{postItem.username}}</span></p>
