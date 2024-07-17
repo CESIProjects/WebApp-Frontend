@@ -170,31 +170,33 @@ export default {
       </div>
       <div class="p-6 bg-gray-50">
         <h1 class="text-2xl pb-6">Publication(s) {{ postCount }} :  </h1>
-        <div v-for="post in postsUser" :key="post.id" class="mb-10 grid grid-cols-3">
-            <div>
-                <img
-                    src="/test_blog.jpg"
-                    class="bg-auto rounded-3xl h-52"
-                />
-                <div class="mt-2">
-                    <div class="text-2xl text-center font-bold">{{ post.title }}</div>
-                    <div class="mt-2 font-semibold text-gray-500 text-center text-md">
-                        {{ post.content }}
-                    </div>
-                    <!-- <div class="py-1 mb-2 flex justify-between">
-                        <div class="mr-2 group">
-                            <div class="flex">
-                                <div
-                                class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"
-                                >
-                                    <Icon name="icon-park-outline:like" size="1.5rem" />
-                                </div>
-                                <span class="text-lg mt-1">12</span>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div v-for="post in postsUser" :key="post.id" class="mb-10">
+              <div>
+                  <img
+                      src="/test_blog.jpg"
+                      class="bg-auto rounded-3xl h-52"
+                  />
+                  <div class="mt-2">
+                      <div class="text-2xl text-center font-bold">{{ post.title }}</div>
+                      <div class="mt-2 font-semibold text-gray-500 text-center text-md">
+                          {{ post.content }}
+                      </div>
+                      <!-- <div class="py-1 mb-2 flex justify-between">
+                          <div class="mr-2 group">
+                              <div class="flex">
+                                  <div
+                                  class="group-hover:bg-red-500 rounded-full group-hover:text-white transition duration-300 mr-2 px-1.5 py-1"
+                                  >
+                                      <Icon name="icon-park-outline:like" size="1.5rem" />
+                                  </div>
+                                  <span class="text-lg mt-1">12</span>
+                              </div>
+                          </div>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
         </div>
       </div>
     </div>
