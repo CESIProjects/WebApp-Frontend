@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-10 ">
-    <SidebarLeft class="col-span-2 bg-gray-700" />
+    <SidebarLeft class="col-span-2" />
     <div
       class="col-span-8 bg-gradient-to-r bg-white relative"
     >

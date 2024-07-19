@@ -1,25 +1,24 @@
 <template>
   <div class="min-h-screen bg-gray-100">
     <!-- Navbar -->
-    <div class="flex items-center justify-between border-gray-800 py-4 h-24 px-8 bg-white">
-      <div class="font-semibold text-3xl text-gray-800">Accueil des publications</div>
+    <div class="flex items-center justify-between py-4 h-24 px-8 bg-white">
+      <div class="font-semibold text-3xl text-gray-800">Mes favoris</div>
       <div class="flex items-center">
         <input
           placeholder="Rechercher par nom"
-          class="border-2 border-gray-200 rounded-md px-4 py-3 bg-gray-100 w-72"
+          class="border-2 border-gray-200 rounded-md px-4 py-3 bg-gray-100 w-72 "
         />
       </div>
     </div>
 
     <!-- Page content -->
-
-    <div class="mx-auto text-black bg-gray-100 border-t">
+    <div class="mx-auto text-black bg-gray-100 border-t ">
       <!-- <div v-for="category in categories" :key="category.id" class="flex overflow-x-auto gap-x-4 ">
         <div class="bg-blue-400 text-lg px-4 py-1 rounded-xl"> 
           {{ category.name }}
         </div>
       </div> -->
-      <div class="grid grid-cols-2 mx-auto gap-x-8 p-8">
+      <div class="grid grid-cols-2 mx-auto gap-x-8 p-8 ">
         <div
           class="mb-10 border border-gray-500 bg-white rounded-lg"
           v-for="post in posts"
@@ -87,10 +86,11 @@ import { useRoute } from "vue-router";
 export default {
   data() {
     return {
-      posts: []
+      posts: [],
+      favoritesIds: []
     };
   },
-  mounted() {
+  async mounted() {
     this.fetchPosts();
   },
   computed: {
@@ -102,9 +102,23 @@ export default {
   methods: {
     fetchPosts() {
       axios
-        .get("http://localhost:8080/api/posts")
+        .get("http://localhost:8080/api/likes/user/" + this.userStore.user.id)
         .then((response) => {
-          this.posts = response.data;
+          for (let i = 0; i < response.data.length; i++) {
+            this.favoritesIds.push(response.data[i].id.postId)
+            this.fetchPostFavorite(this.favoritesIds[i])
+          }
+          // this.fetchPostFavorite(this.favoritesIds)
+        })
+        .catch((error) => {
+          console.error("Error fetching customers:", error);
+        });
+    },
+    fetchPostFavorite(postId) {
+      axios
+        .get("http://localhost:8080/api/posts/" + postId)
+        .then((response) => {
+          this.posts.push(response.data) 
         })
         .catch((error) => {
           console.error("Error fetching customers:", error);
