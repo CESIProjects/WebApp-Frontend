@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="sticky border-r-2 border-gray-200 top-0 flex flex-col  h-screen text-xl text-white bg-gradient-to-r bg-gray-500">
+    class="sticky  border-gray-200 top-0 flex flex-col  h-screen text-xl text-white bg-gradient-to-r bg-gray-500">
     <!-- bg-gradient-to-l from-blue-600 to-blue-900 -->
     <div class="flex flex-col">
       <div class="flex px-6 py-5 bg-gray-900">
@@ -10,12 +10,10 @@
           RELATIONNELLES
         </div>
       </div>
-      <div class="border-t-2 border-gray-200"></div>
-      <div class="h-8 bg-gray-200  mx-auto w-[2px]"></div>
 
-      <div class="flex flex-col justify-center mx-6">
+      <div class="flex flex-col justify-center mx-6 py-2 mt-4">
         <NuxtLink to="/"
-          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition border-2 px-4 py-3 text-gray-300 rounded-lg bg-gray-800">
+          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition  px-4 py-3 text-gray-300 rounded-lg bg-gray-800">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7"
             stroke="currentColor" class="w-6 h-6 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -24,11 +22,10 @@
           Accueil
         </NuxtLink>
       </div>
-      <div class="h-8 bg-gray-200  mx-auto w-[2px]"></div>
 
-      <div class="flex flex-col  text-xl">
+      <div class="flex flex-col justify-center mx-6 py-2">
         <NuxtLink to="/posts"
-          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition border-2 px-4 py-3 text-gray-300 mx-6 rounded-lg bg-gray-800">
+          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition  px-4 py-3 text-gray-300 rounded-lg bg-gray-800">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.7"
             stroke="currentColor" class="w-6 h-6 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -36,20 +33,21 @@
           </svg>
           Mes publications
         </NuxtLink>
-          <div class="h-8 bg-gray-200  mx-auto w-[2px]"></div>
+      </div>
+
+      <div class="flex flex-col justify-center mx-6 py-2">
         <NuxtLink to="/resource"
-          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition border-2 px-4 py-3 text-gray-300 mx-6 rounded-lg bg-gray-800">
+          class="flex items-center hover:scale-105 hover:bg-gray-900 text-center transition px-4 py-3 text-gray-300 rounded-lg bg-gray-800">
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 mr-2"><path fill="white" d="M10.788 3.102c.495-1.003 1.926-1.003 2.421 0l2.358 4.778l5.273.766c1.107.16 1.549 1.522.748 2.303l-.905.882a6.5 6.5 0 0 0-1.517-.616l1.157-1.128l-5.05-.734a1.35 1.35 0 0 1-1.016-.739L11.998 4.04L9.74 8.614a1.35 1.35 0 0 1-1.016.739l-5.05.734l3.654 3.562c.318.31.463.757.388 1.195l-.862 5.029l4.149-2.181c.015.542.098 1.067.238 1.569l-3.958 2.081c-.99.52-2.148-.32-1.96-1.423l.901-5.251l-3.815-3.72c-.801-.78-.359-2.141.748-2.302L8.43 7.88zM23 17.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0m-5 .5l.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 0 1 0-1H17v-2.501a.5.5 0 0 1 1 0v2.5h2.497a.5.5 0 0 1 0 1z"/></svg>          
           Mes favoris
         </NuxtLink>
-
       </div>
       
     </div>
     <div class="mx-auto h-full">
-      <div class="h-full bg-gray-200 mx-auto w-[2px]"></div>
+      <div class="h-full  mx-auto w-[2px]"></div>
     </div>
-    <div class="flex w-full border-t-2 border-white">
+    <div class="flex w-full border-t border-white">
       <NuxtLink
         :to="'/profile/' + userStore.user.id"
         class="flex items-center justify-start p-3 bg-gray-800 gap-x-2 cursor-pointer text-white hover:bg-gray-900 transition truncate w-full">
@@ -64,7 +62,7 @@
       </NuxtLink>
 
       <div
-        class="bg-red-800 flex items-center border-l-2 border-white transition px-5 group cursor-pointer hover:bg-gray-900"
+        class="bg-red-800 flex items-center  border-white transition px-5 group cursor-pointer hover:bg-gray-900"
         @click="logout">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
           class="size-6 transition group-hover:scale-110">
