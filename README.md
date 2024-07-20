@@ -1,18 +1,31 @@
-# WebApp-Frontend
+# Nuxt 3 Minimal Starter
 
-## Project Setup
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-```sh
-cd WebApp-Frontend
-```
+## Setup
 
-```sh
+Make sure to install the dependencies:
+
+```bash
+# npm
 npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-### Compile and Hot-Reload for Development
+## Development Server
 
-```sh
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
 npm run dev
 ```
 
@@ -26,7 +39,7 @@ In main folder -> :
     * WebApp-Frontend
     * WebApp-Backend
     * docker-compose.yml
-
+ 
 Put it here and write this inside : (Only the front for the moment, backend will be added)
 
 ```sh
