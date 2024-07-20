@@ -1,3 +1,33 @@
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+import UserServices from '@/services/UserServices'; 
+
+const formData = reactive({
+  username: '',
+  password: '',
+});
+
+const errorMessage = ref('');
+
+const login = async () => {
+  if (!formData.username || !formData.password) {
+    errorMessage.value = 'Veuillez remplir tous les champs.';
+    return;
+  }
+
+  errorMessage.value = '';
+
+  try {
+    const userServices = new UserServices();  // Create an instance of UserServices
+    await userServices.login(formData.username, formData.password);
+    console.log('User login successfully.');
+  } catch (error: any) {
+    console.error('Error login user:', error);
+    errorMessage.value = error.message;
+  }
+};
+</script>
+
 <template>
   <div
     class="h-screen w-full bg-[url('https://mrwallpaper.com/images/hd/arc-de-triomphe-france-1ikitad7j4ix10a5.jpg')] bg-auto bg-no-repeat bg-center"
@@ -82,64 +112,4 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import { useUserStore } from "../stores/user.ts";
 
-export default {
-  data() {
-    return {
-      formData: {
-        username: "",
-        password: "",
-      },
-      errorMessage: "",
-    };
-  },
-  methods: {
-    login() {
-      if (!this.formData.username || !this.formData.password) {
-        this.errorMessage = "Veuillez remplir tous les champs.";
-        return;
-      }
-
-      this.errorMessage = "";
-
-      const config = useRuntimeConfig();
-      axios
-        .post(config.public.localhost + "/api/auth/signin", {
-          username: this.formData.username,
-          password: this.formData.password,
-        })
-        .then((response) => {
-          console.log("User login successfully. ID:", response);
-
-          const userStore = useUserStore();
-          userStore.setUser({
-            username: this.formData.username,
-            token: response.data.accessToken,
-            role: response.data.role,
-            email: response.data.email,
-            id: response.data.id,
-            isLoggedIn: true,
-          });
-
-          console.log("User connected:", userStore.user);
-        })
-        .catch((error) => {
-          console.error("Error login user:", error);
-
-          if (
-            error.response &&
-            error.response.status === 400 &&
-            error.response.data.message
-          ) {
-            this.errorMessage = error.response.data.message;
-          } else {
-            this.errorMessage = "Cette adresse email est déjà utilisée";
-          }
-        });
-    },
-  },
-};
-</script>

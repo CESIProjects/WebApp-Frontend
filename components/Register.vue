@@ -1,3 +1,100 @@
+<script setup lang="ts">
+import { reactive, ref } from 'vue';
+import Toast from '@/components/pop-ups/Toast.vue';
+import axios from 'axios';
+import { useRuntimeConfig } from '#imports';
+
+// Define emits
+const emit = defineEmits<{
+  (e: 'redirectToLogin'): void;
+}>();
+
+// Define form data interface
+interface FormData {
+  username: string;
+  email: string;
+  role: string;
+  password: string;
+  repeatPassword: string;
+}
+
+// Reactive form data
+const formData = reactive<FormData>({
+  username: '',
+  email: '',
+  role: 'ROLE_USER',
+  password: '',
+  repeatPassword: ''
+});
+
+// Reactive state variables
+const errorMessage = ref<string>('');
+const showToast = ref<boolean>(false);
+
+// Register function
+const register = async () => {
+  if (!formData.username || !formData.email || !formData.password) {
+    errorMessage.value = "Veuillez remplir tous les champs.";
+    return;
+  }
+
+  // Validate email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    errorMessage.value = "Veuillez saisir une adresse e-mail valide";
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 3500);
+    return;
+  }
+
+  // Check if passwords match
+  if (formData.password !== formData.repeatPassword) {
+    errorMessage.value = "Les mots de passe ne correspondent pas.";
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 3500);
+    return;
+  }
+
+  // Check password length
+  if (formData.password.length < 8) {
+    errorMessage.value = "Le mot de passe doit contenir au moins 8 caractères.";
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 3500);
+    return;
+  }
+
+  errorMessage.value = "";
+
+  // Initialize runtime config
+  const config = useRuntimeConfig();
+  const apiUrl = `${config.public.localhost}/api/auth/signup`;
+
+  try {
+    // Directly send registration request
+    const response = await axios.post(apiUrl, formData);
+    console.log('User created successfully. Response:', response.data);
+
+    showToast.value = true;
+    setTimeout(() => {
+      showToast.value = false;
+      emit('redirectToLogin');
+    }, 1000);
+  } catch (error: any) {
+    console.error('Error creating user:', error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+      errorMessage.value = error.response.data.message || "Une erreur est survenue lors de la création du compte.";
+    } else {
+      errorMessage.value = "Une erreur est survenue lors de la connexion au serveur.";
+    }
+  }
+};
+</script>
+
 <template>
   <div
     class="h-screen w-full bg-[url('https://mrwallpaper.com/images/hd/arc-de-triomphe-france-1ikitad7j4ix10a5.jpg')] bg-auto bg-no-repeat bg-center"
@@ -118,91 +215,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import Toast from "@/components/pop-ups/Toast.vue";
-import axios from "axios";
-
-export default {
-  components: {
-    Toast,
-  },
-  layout: "auth",
-  data() {
-    return {
-      formData: {
-        username: "",
-        email: "",
-        role: "ROLE_USER",
-        password: "",
-        repeatPassword: "",
-      },
-      errorMessage: "",
-      showToast: false,
-    };
-  },
-  methods: {
-    register() {
-      if (!this.formData.username || !this.formData.email || !this.formData.password) {
-        this.errorMessage = "Veuillez remplir tous les champs.";
-        return;
-      }
-
-      // Vérifier la validité de l'adresse e-mail
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.formData.email)) {
-        this.errorMessage = "Veuillez saisir une adresse e-mail valide";
-        setTimeout(() => {
-          this.errorMessage = "";
-        }, 3500); // masquer le message après 3,5 secondes
-        return;
-      }
-
-      // Vérifier que les mots de passe correspondent
-      if (this.formData.password !== this.formData.repeatPassword) {
-        this.errorMessage = "Les mots de passe ne correspondent pas.";
-        setTimeout(() => {
-          this.errorMessage = "";
-        }, 3500);
-        return;
-      }
-
-      // Vérifier que le mot de passe respecte les critères de sécurité
-      if (this.formData.password.length < 8) {
-        this.errorMessage = "Le mot de passe doit contenir au moins 8 caractères.";
-        setTimeout(() => {
-          this.errorMessage = "";
-        }, 3500);
-        return;
-      }
-
-      this.errorMessage = "";
-
-      axios
-        .post(config.public.localhost + "/api/auth/signup", this.formData)
-        .then((response) => {
-          console.log("User created successfully. ID:", response.data);
-
-          this.showToast = true;
-          setTimeout(() => {
-            this.showToast = false;
-            this.$emit("redirectToLogin");
-          }, 1000);
-        })
-        .catch((error) => {
-          console.error("Error creating user:", error);
-
-          if (
-            error.response &&
-            error.response.status === 400 &&
-            error.response.data.message
-          ) {
-            this.errorMessage = error.response.data.message;
-          } else {
-            this.errorMessage = "Cette adresse email est déjà utilisée";
-          }
-        });
-    },
-  },
-};
-</script>
