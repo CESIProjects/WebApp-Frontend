@@ -27,49 +27,41 @@ Start the development server on `http://localhost:3000`:
 ```bash
 # npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+### No build, everything with docker as fine :sunglasses:
 
-Build the application for production:
+#### docker-compose.yml
 
-```bash
-# npm
-npm run build
+In main folder -> :
 
-# pnpm
-pnpm run build
+* CESI_PROJECT
+    * WebApp-Frontend
+    * WebApp-Backend
+    * docker-compose.yml
+ 
+Put it here and write this inside : (Only the front for the moment, backend will be added)
 
-# yarn
-yarn build
+```sh
+version: '3'
 
-# bun
-bun run build
+services:
+  frontend:
+    build:
+      context: ./WebApp-Frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    networks:
+      - my-network
+    restart: no
+
+networks:
+  my-network:
 ```
 
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+```sh
+docker compose up --build
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+-> [Local docker address created](http://localhost:3000/)
