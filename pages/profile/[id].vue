@@ -2,9 +2,10 @@
 import axios from "axios";
 import { useUserStore } from "@/stores/user.ts";
 
+const config = useRuntimeConfig();
 // Créer une instance d'axios personnalisée
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/auth",
+  baseURL: config.public.localhost + "/api/auth",
 });
 
 // Ajouter un interceptor pour inclure le token JWT dans l'en-tête Authorization
@@ -52,8 +53,9 @@ export default {
   },
   methods: {
     fetchPosts() {
+      const config = useRuntimeConfig();
       api
-        .get(`http://localhost:8080/api/posts/user/${this.$route.params.id}`)
+        .get(config.public.localhost + "/api/posts/user/" + this.$route.params.id)
         .then((response) => {
           this.postsUser = response.data;
         })
@@ -62,8 +64,9 @@ export default {
         });
     },
     fetchUsername() {
+      const config = useRuntimeConfig();
       api
-        .get(`http://localhost:8080/api/auth/getUserById/${this.$route.params.id}`)
+        .get(config.public.localhost + "/api/auth/getUserById/" + this.$route.params.id)
         .then((response) => {
           this.getUserById = response.data;
         })

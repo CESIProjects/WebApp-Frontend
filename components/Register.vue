@@ -2,15 +2,13 @@
   <div
     class="h-screen w-full bg-[url('https://mrwallpaper.com/images/hd/arc-de-triomphe-france-1ikitad7j4ix10a5.jpg')] bg-auto bg-no-repeat bg-center"
   >
-  <Toast v-if="showToast" />
+    <Toast v-if="showToast" />
     <div class="flex justify-center items-center h-full bg-gray-800/50">
       <div
         class="max-w-xl mx-auto flex flex-col justify-center bg-gray-100 rounded-lg p-8"
       >
         <div class="text-center -mt-4">
-          <h2 class="text-3xl font-bold text-gray-800">
-            Création du compte
-          </h2>
+          <h2 class="text-3xl font-bold text-gray-800">Création du compte</h2>
         </div>
 
         <div class="">
@@ -28,10 +26,7 @@
             <div class="space-y-8">
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label
-                    for="username"
-                    class="block text-sm font-medium text-gray-700"
-                  >
+                  <label for="username" class="block text-sm font-medium text-gray-700">
                     Username
                   </label>
                   <div class="mt-1">
@@ -47,10 +42,7 @@
                 </div>
 
                 <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
+                  <label for="email" class="block text-sm font-medium text-gray-700">
                     Email
                   </label>
                   <div class="mt-1">
@@ -66,10 +58,7 @@
                 </div>
 
                 <div>
-                  <label
-                    for="password"
-                    class="block text-sm font-medium text-gray-700"
-                  >
+                  <label for="password" class="block text-sm font-medium text-gray-700">
                     Mot de passe
                   </label>
                   <div class="mt-1">
@@ -131,94 +120,89 @@
 </template>
 
 <script>
-  import Toast from '@/components/pop-ups/Toast.vue'
-  import axios from 'axios'
-  
-  export default {
-    components: {
-      Toast,
-    },
-    layout: 'auth',
-    data() {
-      return {
-        formData: {
-          username: '',
-          email: '',
-          role: 'ROLE_USER',
-          password: '',
-          repeatPassword: '',
-        },
-        errorMessage: '',
-        showToast: false,
-      }
-    },
-    methods: {
-      register() {
-        if (
-          !this.formData.username ||
-          !this.formData.email ||
-          !this.formData.password
-        ) {
-          this.errorMessage = 'Veuillez remplir tous les champs.'
-          return
-        }
-  
-        // Vérifier la validité de l'adresse e-mail
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!emailRegex.test(this.formData.email)) {
-          this.errorMessage = 'Veuillez saisir une adresse e-mail valide'
-          setTimeout(() => {
-            this.errorMessage = ''
-          }, 3500) // masquer le message après 3,5 secondes
-          return
-        }
-  
-        // Vérifier que les mots de passe correspondent
-        if (this.formData.password !== this.formData.repeatPassword) {
-          this.errorMessage = 'Les mots de passe ne correspondent pas.'
-          setTimeout(() => {
-            this.errorMessage = ''
-          }, 3500)
-          return
-        }
-  
-        // Vérifier que le mot de passe respecte les critères de sécurité
-        if (this.formData.password.length < 8) {
-          this.errorMessage =
-            'Le mot de passe doit contenir au moins 8 caractères.'
-          setTimeout(() => {
-            this.errorMessage = ''
-          }, 3500)
-          return
-        }
-  
-        this.errorMessage = ''
-  
-        axios
-          .post('http://localhost:8080/api/auth/signup', this.formData)
-          .then((response) => {
-            console.log('User created successfully. ID:', response.data)
-  
-            this.showToast = true
-            setTimeout(() => {
-              this.showToast = false
-              this.$emit('redirectToLogin') 
-            }, 1000)
-          })
-          .catch((error) => {
-            console.error('Error creating user:', error)
-  
-            if (
-              error.response &&
-              error.response.status === 400 &&
-              error.response.data.message
-            ) {
-              this.errorMessage = error.response.data.message
-            } else {
-              this.errorMessage = 'Cette adresse email est déjà utilisée'
-            }
-          })
+import Toast from "@/components/pop-ups/Toast.vue";
+import axios from "axios";
+
+export default {
+  components: {
+    Toast,
+  },
+  layout: "auth",
+  data() {
+    return {
+      formData: {
+        username: "",
+        email: "",
+        role: "ROLE_USER",
+        password: "",
+        repeatPassword: "",
       },
+      errorMessage: "",
+      showToast: false,
+    };
+  },
+  methods: {
+    register() {
+      if (!this.formData.username || !this.formData.email || !this.formData.password) {
+        this.errorMessage = "Veuillez remplir tous les champs.";
+        return;
+      }
+
+      // Vérifier la validité de l'adresse e-mail
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.formData.email)) {
+        this.errorMessage = "Veuillez saisir une adresse e-mail valide";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 3500); // masquer le message après 3,5 secondes
+        return;
+      }
+
+      // Vérifier que les mots de passe correspondent
+      if (this.formData.password !== this.formData.repeatPassword) {
+        this.errorMessage = "Les mots de passe ne correspondent pas.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 3500);
+        return;
+      }
+
+      // Vérifier que le mot de passe respecte les critères de sécurité
+      if (this.formData.password.length < 8) {
+        this.errorMessage = "Le mot de passe doit contenir au moins 8 caractères.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 3500);
+        return;
+      }
+
+      this.errorMessage = "";
+
+      axios
+        .post(config.public.localhost + "/api/auth/signup", this.formData)
+        .then((response) => {
+          console.log("User created successfully. ID:", response.data);
+
+          this.showToast = true;
+          setTimeout(() => {
+            this.showToast = false;
+            this.$emit("redirectToLogin");
+          }, 1000);
+        })
+        .catch((error) => {
+          console.error("Error creating user:", error);
+
+          if (
+            error.response &&
+            error.response.status === 400 &&
+            error.response.data.message
+          ) {
+            this.errorMessage = error.response.data.message;
+          } else {
+            this.errorMessage = "Cette adresse email est déjà utilisée";
+          }
+        });
     },
-  }
-  </script>
+  },
+};
+</script>

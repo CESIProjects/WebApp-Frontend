@@ -220,8 +220,10 @@ export default {
       this.$router.push("/");
     },
     fetchCategories() {
+      const config = useRuntimeConfig();
+
       axios
-        .get("http://localhost:8080/api/posts")
+        .get(config.public.localhost + "/api/posts")
         .then((response) => {
           this.categories = response.data;
         })
@@ -230,12 +232,13 @@ export default {
         });
     },
     createCategory() {
+      const config = useRuntimeConfig();
+
       const newCategory = {
         name: this.newCategoryName,
       };
-
       axios
-        .post("http://localhost:8080/api/categories", newCategory)
+        .post(config.public.localhost + "/api/categories", newCategory)
         .then((response) => {
           this.fetchCategories();
           this.modalCategory = false;
@@ -246,8 +249,11 @@ export default {
         });
     },
     deleteCategory() {
+      const config = useRuntimeConfig();
+
       axios
-        .delete(`http://localhost:8080/api/categories/${id}`)
+
+        .delete(config.public.localhost + "/api/categories/" + id)
         .then(() => {
           this.categories = this.categories.filter((c) => c.id !== id);
           this.fetchCategories();
@@ -278,8 +284,10 @@ export default {
         };
 
         // Effectuer la requête POST avec Axios
+        const config = useRuntimeConfig();
+
         const response = await axios.post(
-          "http://localhost:8080/api/posts/post",
+          config.public.localhost + "/api/posts/post",
           postData
         );
 

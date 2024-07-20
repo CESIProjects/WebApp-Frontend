@@ -2,4 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [ "@nuxtjs/tailwindcss", 'nuxt-icon', '@pinia/nuxt',  '@pinia-plugin-persistedstate/nuxt' ],
+  runtimeConfig: {
+    public: {
+      playwrightCredentials: process.env.PLAYWRIGHT_CREDENTIALS,
+      localhost: process.env.LOCALHOST,
+    },
+  },
 })

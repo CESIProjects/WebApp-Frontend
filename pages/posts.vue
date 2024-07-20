@@ -261,8 +261,9 @@ export default {
   },
   methods: {
     fetchCategories() {
+      const config = useRuntimeConfig();
       axios
-        .get("http://localhost:8080/api/categories")
+        .get(config.public.localhost + "/api/categories")
         .then((response) => {
           this.categories = response.data;
         })
@@ -275,8 +276,9 @@ export default {
         name: this.newCategoryName,
       };
 
+      const config = useRuntimeConfig();
       axios
-        .post("http://localhost:8080/api/categories/post", newCategory)
+        .post(config.public.localhost + "/api/categories/post", newCategory)
         .then((response) => {
           console.log("Category created successfully:", response.data);
           this.fetchCategories();
@@ -291,8 +293,9 @@ export default {
     },
 
     fetchPosts() {
+      const config = useRuntimeConfig();
       axios
-        .get("http://localhost:8080/api/posts/user/" + this.userStore.user.id)
+        .get(config.public.localhost + "/api/posts/user/" + this.userStore.user.id)
         .then((response) => {
           this.posts = response.data;
         })
@@ -312,8 +315,11 @@ export default {
           userId: this.userStore.user.id,
           categoryId: this.postData.category,
         };
+
+        const config = useRuntimeConfig();
+
         const response = await axios.post(
-          "http://localhost:8080/api/posts/post",
+          config.public.localhost + "/api/posts/post",
           creationData
         );
 

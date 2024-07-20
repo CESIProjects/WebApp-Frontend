@@ -6,19 +6,19 @@
       <div class="flex items-center">
         <input
           placeholder="Rechercher par nom"
-          class="border-2 border-gray-200 rounded-md px-4 py-3 bg-gray-100 w-72 "
+          class="border-2 border-gray-200 rounded-md px-4 py-3 bg-gray-100 w-72"
         />
       </div>
     </div>
 
     <!-- Page content -->
-    <div class="mx-auto text-black bg-gray-100 border-t ">
+    <div class="mx-auto text-black bg-gray-100 border-t">
       <!-- <div v-for="category in categories" :key="category.id" class="flex overflow-x-auto gap-x-4 ">
         <div class="bg-blue-400 text-lg px-4 py-1 rounded-xl"> 
           {{ category.name }}
         </div>
       </div> -->
-      <div class="grid grid-cols-2 mx-auto gap-x-8 p-8 ">
+      <div class="grid grid-cols-2 mx-auto gap-x-8 p-8">
         <div
           class="mb-10 border border-gray-500 bg-white rounded-lg"
           v-for="post in posts"
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       posts: [],
-      favoritesIds: []
+      favoritesIds: [],
     };
   },
   async mounted() {
@@ -101,12 +101,13 @@ export default {
   },
   methods: {
     fetchPosts() {
+      const config = useRuntimeConfig();
       axios
-        .get("http://localhost:8080/api/likes/user/" + this.userStore.user.id)
+        .get(config.public.localhost + "/api/likes/user/" + this.userStore.user.id)
         .then((response) => {
           for (let i = 0; i < response.data.length; i++) {
-            this.favoritesIds.push(response.data[i].id.postId)
-            this.fetchPostFavorite(this.favoritesIds[i])
+            this.favoritesIds.push(response.data[i].id.postId);
+            this.fetchPostFavorite(this.favoritesIds[i]);
           }
           // this.fetchPostFavorite(this.favoritesIds)
         })
@@ -115,10 +116,11 @@ export default {
         });
     },
     fetchPostFavorite(postId) {
+      const config = useRuntimeConfig();
       axios
-        .get("http://localhost:8080/api/posts/" + postId)
+        .get(config.public.localhost + "/api/posts/" + postId)
         .then((response) => {
-          this.posts.push(response.data) 
+          this.posts.push(response.data);
         })
         .catch((error) => {
           console.error("Error fetching customers:", error);

@@ -1,9 +1,7 @@
 <template>
-  <div class="grid grid-cols-10 ">
+  <div class="grid grid-cols-10">
     <SidebarLeft class="col-span-2" />
-    <div
-      class="col-span-8 bg-gradient-to-r bg-white relative"
-    >
+    <div class="col-span-8 bg-gradient-to-r bg-white relative">
       <slot />
       <!-- <div class="absolute right-0 top-4 border-l-2 border-y-2 rounded-l-xl bg-white">
               <div class="p-6 flex justify-center items-center">
@@ -16,13 +14,12 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { useUserStore } from '@/stores/user.ts'
-import SidebarRight from '~/components/SidebarRight.vue'
-import SidebarLeft from '~/components/SidebarLeft.vue'
+import axios from "axios";
+import { useUserStore } from "@/stores/user.ts";
+import SidebarLeft from "~/components/SidebarLeft.vue";
 
 export default {
-  components: { SidebarRight,SidebarLeft },
+  components: { SidebarLeft },
   data() {
     return {
       dialogVisible: false,
@@ -30,33 +27,33 @@ export default {
 
       posts: [],
       categories: [],
-      searchQuery: '',
+      searchQuery: "",
       showForm: false,
       editMode: false,
       formData: {
-        name: '',
-        email: '',
-        password: '',
+        name: "",
+        email: "",
+        password: "",
       },
       postData: {
         visible: false,
-        title: '',
-        description: '',
-        category: '',
+        title: "",
+        description: "",
+        category: "",
       },
-      newCategoryName: '',
+      newCategoryName: "",
       modalCategory: false,
-    }
+    };
   },
   computed: {
     userStore() {
-      const userStore = useUserStore()
-      return userStore
+      const userStore = useUserStore();
+      return userStore;
     },
     filteredCategories() {
       return this.categories.filter((category) =>
-        category.name.toLowerCase().includes(this.searchQuery.toLowerCase()),
-      )
+        category.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
   // watch: {
@@ -72,60 +69,64 @@ export default {
   // },
 
   mounted() {
-    this.fetchCategories()
+    this.fetchCategories();
   },
   methods: {
     logout() {
-      this.userStore.resetUser()
-      this.$router.push('/')
+      this.userStore.resetUser();
+      this.$router.push("/");
     },
     fetchCategories() {
+      const config = useRuntimeConfig();
       axios
-        .get('http://localhost:8080/api/posts')
+        .get(config.public.localhost + "/api/posts")
         .then((response) => {
-          this.categories = response.data
+          this.categories = response.data;
         })
         .catch((error) => {
-          console.error('Error fetching categories:', error)
-        })
+          console.error("Error fetching categories:", error);
+        });
     },
     createCategory() {
       const newCategory = {
         name: this.newCategoryName,
-      }
+      };
 
+      const config = useRuntimeConfig();
       axios
-        .post('http://localhost:8080/api/categories', newCategory)
+        .post(config.public.localhost + "/api/categories", newCategory)
         .then((response) => {
-          this.fetchCategories()
-          this.modalCategory = false
-          this.newCategoryName = ''
+          this.fetchCategories();
+          this.modalCategory = false;
+          this.newCategoryName = "";
         })
         .catch((error) => {
-          console.error('Error creating category:', error)
-        })
+          console.error("Error creating category:", error);
+        });
     },
     deleteCategory() {
+      const config = useRuntimeConfig();
+
       axios
-        .delete(`http://localhost:8080/api/categories/${id}`)
+        .delete(config.public.localhost + "/api/categories/" + id)
         .then(() => {
-          this.categories = this.categories.filter((c) => c.id !== id)
-          this.fetchCategories()
+          this.categories = this.categories.filter((c) => c.id !== id);
+          this.fetchCategories();
         })
         .catch((error) => {
-          console.error('Error deleting category:', error)
-        })
+          console.error("Error deleting category:", error);
+        });
     },
     handleDialogSubmit(formData) {
       // Gérer les données soumises depuis la boîte de dialogue
-      console.log('Données soumises:', formData)
+      console.log("Données soumises:", formData);
       // Réinitialiser la visibilité de la boîte de dialogue
-      this.dialogVisible = false
+      this.dialogVisible = false;
     },
     async submitForm() {
       try {
         // Obtenir la date de publication actuelle au format ISO 8601
-        const publicationDate = new Date().toISOString()
+        const publicationDate = new Date().toISOString();
 
         // Construction de l'objet à envoyer dans la requête POST
         const postData = {
@@ -135,40 +136,43 @@ export default {
           popular: true, // Vous devez déterminer comment définir cette valeur
           userId: 0, // Vous devez déterminer comment obtenir l'ID de l'utilisateur
           categoryId: 0, // Vous devez déterminer comment obtenir l'ID de la catégorie
-        }
+        };
 
         // Effectuer la requête POST avec Axios
+        const config = useRuntimeConfig();
+
         const response = await axios.post(
-          'http://localhost:8080/api/posts/post',
-          postData,
-        )
+          config.public.localhost + "/api/posts/post",
+          postData
+        );
 
         // Vérifier si la requête a réussi (statut HTTP 2xx)
         if (response.status === 200 || response.status === 201) {
           // Afficher un message de succès ou effectuer d'autres actions nécessaires
-          console.log('Publication réussie !')
+          console.log("Publication réussie !");
 
           // Émettre un événement pour indiquer que la publication est réussie
-          this.$emit('post-success')
+          this.$emit("post-success");
 
           // Cacher le dialogue après la soumission
-          this.visible = false
+          this.visible = false;
         } else {
           // Si la requête a échoué, afficher un message d'erreur ou effectuer d'autres actions nécessaires
-          console.error('Échec de la publication.')
+          console.error("Échec de la publication.");
         }
       } catch (error) {
-        console.error('Erreur lors de la publication :', error)
+        console.error("Erreur lors de la publication :", error);
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
 .bg-main-color {
   background-color: #710000;
 }
+
 .police {
   font-family: cursive;
 }

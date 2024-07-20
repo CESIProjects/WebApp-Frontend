@@ -7,11 +7,7 @@
         class="max-w-xl mx-auto flex flex-col justify-center bg-gray-100 rounded-lg p-8"
       >
         <div class="text-center -mt-4">
-          <h2 class="text-3xl font-bold text-gray-800">
-            Connexion au compte
-          </h2>
-
-          
+          <h2 class="text-3xl font-bold text-gray-800">Connexion au compte</h2>
         </div>
 
         <div class="">
@@ -28,10 +24,7 @@
           <div class="mt-2">
             <div class="space-y-8">
               <div>
-                <label
-                  for="username"
-                  class="block text-sm font-medium text-gray-700"
-                >
+                <label for="username" class="block text-sm font-medium text-gray-700">
                   Username
                 </label>
                 <div class="mt-1">
@@ -48,10 +41,7 @@
               </div>
 
               <div class="space-y-1 pb-8">
-                <label
-                  for="password"
-                  class="block text-sm font-medium text-gray-700"
-                >
+                <label for="password" class="block text-sm font-medium text-gray-700">
                   Mot de passe
                 </label>
                 <div class="mt-1">
@@ -93,63 +83,63 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { useUserStore } from '../stores/user.ts'
+import axios from "axios";
+import { useUserStore } from "../stores/user.ts";
 
 export default {
   data() {
     return {
       formData: {
-        username: '',
-        password: '',
+        username: "",
+        password: "",
       },
-      errorMessage: '',
-    }
+      errorMessage: "",
+    };
   },
   methods: {
     login() {
       if (!this.formData.username || !this.formData.password) {
-        this.errorMessage = 'Veuillez remplir tous les champs.'
-        return
+        this.errorMessage = "Veuillez remplir tous les champs.";
+        return;
       }
 
-      this.errorMessage = ''
+      this.errorMessage = "";
 
+      const config = useRuntimeConfig();
       axios
-        .post('http://localhost:8080/api/auth/signin', {
+        .post(config.public.localhost + "/api/auth/signin", {
           username: this.formData.username,
-          password: this.formData.password
+          password: this.formData.password,
         })
         .then((response) => {
-          console.log('User login successfully. ID:', response)
+          console.log("User login successfully. ID:", response);
 
-          const userStore = useUserStore()
+          const userStore = useUserStore();
           userStore.setUser({
             username: this.formData.username,
             token: response.data.accessToken,
             role: response.data.role,
             email: response.data.email,
             id: response.data.id,
-            isLoggedIn: true
-          })
+            isLoggedIn: true,
+          });
 
-          console.log('User connected:', userStore.user)
-
+          console.log("User connected:", userStore.user);
         })
         .catch((error) => {
-          console.error('Error login user:', error)
+          console.error("Error login user:", error);
 
           if (
             error.response &&
             error.response.status === 400 &&
             error.response.data.message
           ) {
-            this.errorMessage = error.response.data.message
+            this.errorMessage = error.response.data.message;
           } else {
-            this.errorMessage = 'Cette adresse email est déjà utilisée'
+            this.errorMessage = "Cette adresse email est déjà utilisée";
           }
-        })
+        });
     },
   },
-}
+};
 </script>

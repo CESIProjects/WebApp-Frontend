@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-100">
     <!-- Navbar -->
-    <div class="flex items-center justify-between border-gray-800 py-4 h-24 px-8 bg-white">
+    <div
+      class="flex items-center justify-between border-gray-800 py-4 h-24 px-8 bg-white"
+    >
       <div class="font-semibold text-3xl text-gray-800">Accueil des publications</div>
       <div class="flex items-center">
         <input
@@ -87,7 +89,7 @@ import { useRoute } from "vue-router";
 export default {
   data() {
     return {
-      posts: []
+      posts: [],
     };
   },
   mounted() {
@@ -101,8 +103,9 @@ export default {
   },
   methods: {
     fetchPosts() {
+      const config = useRuntimeConfig();
       axios
-        .get("http://localhost:8080/api/posts")
+        .get(config.public.localhost + "/api/posts")
         .then((response) => {
           this.posts = response.data;
         })
